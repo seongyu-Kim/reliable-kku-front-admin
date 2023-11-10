@@ -82,7 +82,7 @@ export const SideMenuView = styled.View`
   width: 196.75px;
   height: 834px;
   background: #fff;
-  left: 0px;
+  left: 0;
 `;
 
 export const SideMenuText = styled.Text<MenuTextProps>`
