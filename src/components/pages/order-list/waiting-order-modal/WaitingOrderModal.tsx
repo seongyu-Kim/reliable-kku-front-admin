@@ -2,6 +2,10 @@ import React, {useState} from 'react';
 import {Modal, TouchableOpacity} from 'react-native';
 import * as styles from './WaitingOrderModal.styles';
 import CloseButton from '../../../../assets/images/closeButton.svg';
+import {
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 const WaitingOrderModal: React.FC<{
   id: any;
@@ -25,7 +29,10 @@ const WaitingOrderModal: React.FC<{
           {/* 모달위부분 */}
           <styles.OrderModalTop>
             <styles.CloseBtnImg onPress={handleCloseOrder}>
-              <CloseButton width={30} height={30} />
+              <CloseButton
+                width={widthPercentage(30)}
+                height={heightPercentage(30)}
+              />
             </styles.CloseBtnImg>
             <styles.OrderModalTopText>
               주문번호 {parseInt(id)}
