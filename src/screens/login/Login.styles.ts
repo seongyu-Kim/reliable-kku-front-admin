@@ -1,9 +1,5 @@
 import styled from 'styled-components/native';
-import {
-  fontPercentage,
-  heightPercentage,
-  widthPercentage,
-} from '../../components/common/ResponsiveSize';
+import {fontPercentage, heightPercentage, widthPercentage,} from '../../components/common/ResponsiveSize';
 
 export const Container = styled.View`
   flex: 1;

@@ -1,9 +1,5 @@
 import styled from 'styled-components/native';
-import {
-  fontPercentage,
-  heightPercentage,
-  widthPercentage,
-} from '../../../common/ResponsiveSize';
+import {fontPercentage, heightPercentage, widthPercentage,} from '../../../common/ResponsiveSize';
 
 export const Order = styled.TouchableOpacity`
   width: ${widthPercentage(247)}px;

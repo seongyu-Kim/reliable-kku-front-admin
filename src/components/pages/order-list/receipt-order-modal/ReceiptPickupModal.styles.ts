@@ -1,8 +1,8 @@
 import styled from 'styled-components/native';
 import {
-  fontPercentage,
-  heightPercentage,
-  widthPercentage,
+    fontPercentage,
+    heightPercentage,
+    widthPercentage,
 } from '../../../common/ResponsiveSize';
 
 export const OrderModalView = styled.View`

@@ -10,7 +10,7 @@ const MainScreen: React.FC = () => {
   //탑메뉴 선택
   const [selectedTopMenu, setSelectedTopMenu] = useState<string>('대기');
 
-  const [selectedSideMenu, setSelectedSideMenu] = useState<string | null>(null);
+  const [selectedSideMenu, setSelectedSideMenu] = useState<string>('');
 
   return (
     <styles.Container>

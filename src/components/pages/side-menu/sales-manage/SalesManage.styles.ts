@@ -74,7 +74,7 @@ export const CalendarView = styled.View`
   flex-direction: row;
 `;
 
-export const CalenderButton = styled.TouchableOpacity`
+export const CalenderButton = styled.TouchableOpacity<{isSelected: boolean}>`
   width: ${widthPercentage(41)}px;
   height: ${heightPercentage(41)}px;
   flex-shrink: 0;

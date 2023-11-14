@@ -16,7 +16,7 @@ const TopMenu: React.FC<{
   setIsSideMenuVisible: any;
   selectedTopMenu: string;
   setSelectedTopMenu: any;
-  selectedSideMenu: any;
+  selectedSideMenu: string;
   setSelectedSideMenu: any;
 }> = ({
   isSideMenuVisible,
@@ -74,7 +74,7 @@ const TopMenu: React.FC<{
 
       {isSideMenuVisible && (
         <styles.SideMenuView>
-          <Margin height={heightPercentage(153.25)} />
+          <Margin width={0} height={heightPercentage(153.25)} />
 
           <TouchableOpacity
             onPress={() => {
@@ -86,7 +86,7 @@ const TopMenu: React.FC<{
             </styles.SideMenuText>
           </TouchableOpacity>
 
-          <Margin height={heightPercentage(79.69)} />
+          <Margin width={0} height={heightPercentage(79.69)} />
 
           <TouchableOpacity
             onPress={() => {
@@ -98,7 +98,7 @@ const TopMenu: React.FC<{
             </styles.SideMenuText>
           </TouchableOpacity>
 
-          <Margin height={heightPercentage(79.69)} />
+          <Margin width={0} height={heightPercentage(79.69)} />
 
           <TouchableOpacity
             onPress={() => {
@@ -110,7 +110,7 @@ const TopMenu: React.FC<{
             </styles.SideMenuText>
           </TouchableOpacity>
 
-          <Margin height={heightPercentage(79.69)} />
+          <Margin width={0} height={heightPercentage(79.69)} />
 
           <TouchableOpacity
             onPress={() => {
@@ -122,7 +122,7 @@ const TopMenu: React.FC<{
             </styles.SideMenuText>
           </TouchableOpacity>
 
-          <Margin height={heightPercentage(79.69)} />
+          <Margin width={0} height={heightPercentage(79.69)} />
 
           <TouchableOpacity
             onPress={() => {
@@ -142,7 +142,7 @@ const TopMenu: React.FC<{
         </styles.SideMenuView>
       )}
 
-      <Margin height={heightPercentage(35)} />
+      <Margin width={0} height={heightPercentage(35)} />
 
       {isSideMenuVisible ? (
         <>

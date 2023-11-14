@@ -58,7 +58,7 @@ export const MemberText = styled.Text`
   font-weight: 600;
 `;
 
-export const Hrline = styled.View`
+export const HrLine = styled.View`
   height: ${heightPercentage(36)}px;
   width: ${widthPercentage(1)}px;
   background: rgba(0, 0, 0, 0.6);

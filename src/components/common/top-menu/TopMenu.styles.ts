@@ -4,11 +4,17 @@ import {
   heightPercentage,
   widthPercentage,
 } from '../ResponsiveSize';
+import {Text, TextProps} from 'react-native';
 
-interface MenuTextProps {
-  selectedTopMenu: string;
-  selectedSideMenu: string;
-}
+type SelectedTopMenuProps = {
+  children: string;
+  selectedTopMenu: boolean;
+} & TextProps;
+
+type SelectedSideMenuProps = {
+  children: string;
+  selectedSideMenu: boolean;
+} & TextProps;
 
 export const TopMenuView = styled.View<{isSideMenu: boolean}>`
   flex-direction: row;
@@ -20,7 +26,7 @@ export const TopMenuViewSm = styled.View<{isSideMenu: boolean}>`
   justify-content: center;
 `;
 
-export const TopMenuText = styled.Text<MenuTextProps>`
+export const TopMenuText = styled.Text<SelectedTopMenuProps>`
   color: ${props =>
     props.selectedTopMenu ? 'rgba(0, 0, 0, 0.60)' : 'rgba(0, 0, 0, 0.30)'};
   font-size: ${fontPercentage(40)}px;
@@ -90,7 +96,7 @@ export const SideMenuView = styled.View`
   left: 0;
 `;
 
-export const SideMenuText = styled.Text<MenuTextProps>`
+export const SideMenuText = styled(Text)<SelectedSideMenuProps>`
   left: ${widthPercentage(42.87)}px;
   color: ${props =>
     props.selectedSideMenu ? 'rgba(0, 0, 0, 0.60)' : 'rgba(0, 0, 0, 0.30)'};

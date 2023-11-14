@@ -73,23 +73,23 @@ const StockManage: React.FC = () => {
 
     const renderItem = ({item}: { item: any }) => (
         <styles.StockManageView>
-            <Margin height={heightPercentage(62)}/>
+            <Margin width={0} height={heightPercentage(62)}/>
             <TouchableOpacity onPress={() => handleDeletePress(item.menuId)}>
                 <styles.StockDeleteText>삭제</styles.StockDeleteText>
             </TouchableOpacity>
-            <Margin height={heightPercentage(5)}/>
+            <Margin width={0} height={heightPercentage(5)}/>
 
             <styles.StockTitle>{item.menuName}</styles.StockTitle>
             <styles.StockCatImg>
                 <Image source={{uri: item.imageUrl}} height={heightPercentage(220)} width={widthPercentage(220)}/>
             </styles.StockCatImg>
-            <Margin height={heightPercentage(18)}/>
+            <Margin width={0} height={heightPercentage(18)}/>
             <styles.StockBtn
                 disabled={!item.isSale}
                 onPress={() => handleSoldOutPress(item.menuId, item.isSale)}>
                 <styles.StockBtnText>품절</styles.StockBtnText>
             </styles.StockBtn>
-            <Margin height={heightPercentage(14)}/>
+            <Margin width={0} height={heightPercentage(14)}/>
             <styles.StockBtn
                 disabled={item.isSale}
                 onPress={() => handleSoldOutPress(item.menuId, item.isSale)}>

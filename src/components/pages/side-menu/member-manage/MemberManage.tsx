@@ -7,7 +7,7 @@ import {BASE_API} from '../../../../api/CommonApi';
 import {heightPercentage, widthPercentage} from "../../../common/ResponsiveSize";
 
 type Member = {
-    id: number;
+    id: string;
     username: string;
     level: number;
     phoneNumber: string;
@@ -66,22 +66,22 @@ const MemberManage: React.FC = () => {
     const renderItem = ({
                             item,
                         }: {
-        item: { id: string; username: string; phoneNumber: string; level: string };
+        item: Member;
     }) => {
         return (
             <styles.MemberView>
                 <styles.MemberId>
                     <styles.MemberText>{item.id}</styles.MemberText>
                 </styles.MemberId>
-                <Margin width={widthPercentage(26)}/>
+                <Margin width={widthPercentage(26)} height={0}/>
                 <styles.MemberText>{item.username}</styles.MemberText>
-                <Margin width={widthPercentage(8)}/>
+                <Margin width={widthPercentage(8)} height={0}/>
 
                 <styles.MemberText>Lv.{item.level}</styles.MemberText>
-                <Margin width={widthPercentage(23)}/>
+                <Margin width={widthPercentage(23)} height={0}/>
 
-                <styles.Hrline/>
-                <Margin width={widthPercentage(33)}/>
+                <styles.HrLine/>
+                <Margin width={widthPercentage(33)} height={0}/>
 
                 <styles.MemberText>
                     {formatPhoneNumber(item.phoneNumber)}
@@ -93,7 +93,7 @@ const MemberManage: React.FC = () => {
     return (
         <>
             <styles.MemberManageBox>
-                <Margin height={heightPercentage(52.77)}/>
+                <Margin width={0} height={heightPercentage(52.77)}/>
 
                 <styles.MemberSearchView>
                     <styles.MemberSearchText>고객검색</styles.MemberSearchText>
@@ -107,13 +107,13 @@ const MemberManage: React.FC = () => {
                     </styles.SearchIconView>
                 </styles.MemberSearchView>
 
-                <Margin height={heightPercentage(49.23)}/>
+                <Margin width={0} height={heightPercentage(49.23)}/>
 
                 <styles.MemberListView>
                     <FlatList
                         data={members}
                         renderItem={renderItem}
-                        keyExtractor={item => item.id.toString()}
+                        keyExtractor={item => item.id}
                     />
                 </styles.MemberListView>
             </styles.MemberManageBox>
