@@ -3,6 +3,7 @@ import * as styles from './CompleteOrderItem.styles';
 import CompleteOrderModal from '../complete-order-modal/CompleteOrderModal';
 import CompleteRestoreModal from '../complete-order-modal/CompleteRestoreModal';
 import axios from 'axios';
+import {BASE_API} from '../../../../api/CommonApi';
 
 const CompleteOrderItem: React.FC<{
   item: any;
@@ -43,7 +44,7 @@ const CompleteOrderItem: React.FC<{
   //주문서 복구
   const handleRestorePress = async () => {
     try {
-      const response = await axios.patch(
+      const response = await BASE_API.patch(
         `https://dev.deunku.com/api/v1/admin/orders/${orderId}/recovery`,
       );
 
