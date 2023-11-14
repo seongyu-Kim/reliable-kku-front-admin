@@ -10,7 +10,7 @@ const LogoutManage: React.FC = () => {
       .then(response => {
         console.log(response.data);
         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-        navigation.navigate('MainScreen');
+        navigation.goBack();
       })
       .catch(error => {
         console.error('Error 로그아웃:', error);
@@ -19,7 +19,6 @@ const LogoutManage: React.FC = () => {
 
   const handleNoPress = () => {
     // 아니오를 누르면 이전 페이지로 이동
-    navigation.goBack();
   };
 
   return (

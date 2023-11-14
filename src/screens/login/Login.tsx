@@ -77,7 +77,6 @@ const Login: React.FC<{}> = () => {
   return (
     <styles.Container>
       <Margin height={heightPercentage(275)} />
-      {/*<Margin height={275} />*/}
 
       <styles.InputView>
         <styles.InputText

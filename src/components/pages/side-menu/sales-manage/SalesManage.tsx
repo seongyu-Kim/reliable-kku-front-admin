@@ -15,6 +15,11 @@ import ExcelIcon from '../../../../assets/images/excelIcon.svg';
 import {BASE_API} from '../../../../api/CommonApi';
 import RNFS from 'react-native-fs';
 import SalesCalendar from './SalesCalendar';
+import {
+  fontPercentage,
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 let markedDates: Record<string, any> = {};
 const TodayDate = new Date(); // 현재 날짜 객체 생성
@@ -255,13 +260,13 @@ const SalesManage: React.FC = () => {
     fillShadowGradientToOpacity: 0,
     fillShadowGradientToOffset: 0,
     color: (opacity = 1) => `rgba(55, 55, 55, ${opacity})`,
-    strokeWidth: 5,
+    strokeWidth: fontPercentage(5),
     barPercentage: 1,
     useShadowColorFromDataset: true,
     withVerticalLines: false,
     decimalPlaces: 0,
     propsForDots: {
-      r: '10', // 원의 반지름을 조절할 수 있습니다.
+      r: fontPercentage(10), // 원의 반지름을 조절할 수 있습니다.
     },
   };
 
@@ -289,9 +294,15 @@ const SalesManage: React.FC = () => {
                 </styles.DropDownCloseText>
                 <styles.DropDownArrow>
                   {isDropOpen ? (
-                    <DropDownOpen width={24} height={24} />
+                    <DropDownOpen
+                      width={widthPercentage(24)}
+                      height={heightPercentage(24)}
+                    />
                   ) : (
-                    <DropDownClose width={24} height={24} />
+                    <DropDownClose
+                      width={widthPercentage(24)}
+                      height={heightPercentage(24)}
+                    />
                   )}
                 </styles.DropDownArrow>
               </styles.DropDownCloseView>
@@ -318,7 +329,10 @@ const SalesManage: React.FC = () => {
 
               <styles.PeriodBoxView onPress={handleOpenCalendar}>
                 <styles.PeriodCalendarImg>
-                  <CalendarImg width={18} height={18} />
+                  <CalendarImg
+                    width={widthPercentage(18)}
+                    height={heightPercentage(18)}
+                  />
                 </styles.PeriodCalendarImg>
 
                 {selectedStartDate && selectedEndDate ? (
@@ -337,7 +351,10 @@ const SalesManage: React.FC = () => {
               </styles.PeriodBoxView>
               {isDateSelected ? (
                 <styles.PeriodCalendarClear onPress={handleResetDates}>
-                  <CalendarDateClear width={17} height={17} />
+                  <CalendarDateClear
+                    width={widthPercentage(17)}
+                    height={heightPercentage(17)}
+                  />
                   <styles.PeriodCalendarClearText>
                     설정 초기화
                   </styles.PeriodCalendarClearText>
@@ -362,7 +379,7 @@ const SalesManage: React.FC = () => {
                       handleDaySelect(day);
                     }}
                     markedDates={markedDates}
-                    style={{borderRadius: 12}}
+                    style={{borderRadius: fontPercentage(12)}}
                     theme={{
                       todayTextColor: 'rgba(255, 202, 66, 1)',
                       dayTextColor: 'rgba(0, 0, 0, 1)',
@@ -370,16 +387,19 @@ const SalesManage: React.FC = () => {
                       textDayFontWeight: '400',
                       textMonthFontWeight: '500',
                       textDayHeaderFontWeight: '300',
-                      textDayFontSize: 16,
-                      textMonthFontSize: 24,
-                      textDayHeaderFontSize: 16,
+                      textDayFontSize: fontPercentage(16),
+                      textMonthFontSize: fontPercentage(24),
+                      textDayHeaderFontSize: fontPercentage(16),
                     }}
                   />
                 </styles.StyledCalendar>
                 <styles.CalenderButton
                   onPress={handleCloseCalendar}
                   isSelected={isDateSelected}>
-                  <CalendarButtonCheck width={19.573} height={13.864} />
+                  <CalendarButtonCheck
+                    width={widthPercentage(19.573)}
+                    height={heightPercentage(13.864)}
+                  />
                 </styles.CalenderButton>
               </styles.CalendarView>
             </Modal>
@@ -389,23 +409,29 @@ const SalesManage: React.FC = () => {
             <>
               <styles.SalesBoxView>
                 <styles.SalesImgView>
-                  <SalesImg height={30} width={30} />
+                  <SalesImg
+                    height={heightPercentage(30)}
+                    width={widthPercentage(30)}
+                  />
                   <styles.SalesImgText>매출</styles.SalesImgText>
                 </styles.SalesImgView>
 
                 <styles.SalesExcelView onPress={downloadExcel}>
-                  <ExcelIcon width={19} height={19} />
+                  <ExcelIcon
+                    width={widthPercentage(19)}
+                    height={heightPercentage(19)}
+                  />
                   <styles.SalesExcelText>엑셀로 보기</styles.SalesExcelText>
                 </styles.SalesExcelView>
 
-                <Margin height={49.67} />
+                <Margin height={heightPercentage(49.67)} />
                 <styles.SalesContentRowView>
                   <styles.SalesContentView>
                     <styles.SalesContentSmText>
                       실 매출
                     </styles.SalesContentSmText>
 
-                    <Margin height={11.99} />
+                    <Margin height={heightPercentage(11.99)} />
 
                     <styles.SalesContentText1>
                       {sales.realAmount} 원
@@ -416,7 +442,7 @@ const SalesManage: React.FC = () => {
                       결제 건수
                     </styles.SalesContentSmText>
 
-                    <Margin height={11.99} />
+                    <Margin height={heightPercentage(11.99)} />
 
                     <styles.SalesContentText1>
                       {sales.paymentCount} 건
@@ -427,7 +453,7 @@ const SalesManage: React.FC = () => {
                       평균 결제 금액
                     </styles.SalesContentSmText>
 
-                    <Margin height={11.99} />
+                    <Margin height={heightPercentage(11.99)} />
 
                     <styles.SalesContentText1>
                       {sales.avgPaymentAmount} 원
@@ -435,7 +461,7 @@ const SalesManage: React.FC = () => {
                   </styles.SalesContentView>
                 </styles.SalesContentRowView>
 
-                <Margin height={69.73} />
+                <Margin height={heightPercentage(69.73)} />
 
                 <styles.SalesContentRowView>
                   <styles.SalesContentView>
@@ -443,7 +469,7 @@ const SalesManage: React.FC = () => {
                       환불금액
                     </styles.SalesContentSmText>
 
-                    <Margin height={11.99} />
+                    <Margin height={heightPercentage(11.99)} />
 
                     <styles.SalesContentText2>
                       {sales.refundAmount} 원
@@ -454,7 +480,7 @@ const SalesManage: React.FC = () => {
                       환불 건수
                     </styles.SalesContentSmText>
 
-                    <Margin height={11.99} />
+                    <Margin height={heightPercentage(11.99)} />
 
                     <styles.SalesContentText2>
                       {sales.refundCount} 건
@@ -465,7 +491,7 @@ const SalesManage: React.FC = () => {
                       평균 환불 금액
                     </styles.SalesContentSmText>
 
-                    <Margin height={11.99} />
+                    <Margin height={heightPercentage(11.99)} />
 
                     <styles.SalesContentText2>
                       {sales.avgRefundAmount} 원
@@ -474,23 +500,26 @@ const SalesManage: React.FC = () => {
                 </styles.SalesContentRowView>
               </styles.SalesBoxView>
 
-              <Margin height={65.16} />
+              <Margin height={heightPercentage(65.16)} />
 
               <styles.PaymentBoxView>
                 <styles.SalesImgView>
-                  <SalesImg height={30} width={30} />
+                  <SalesImg
+                    height={heightPercentage(30)}
+                    width={widthPercentage(30)}
+                  />
                   <styles.SalesImgText>시간대 별 결제 금액</styles.SalesImgText>
                 </styles.SalesImgView>
                 <styles.GraphView>
                   <LineChart
                     data={graphDataLists}
-                    width={887}
-                    height={403}
+                    width={widthPercentage(887)}
+                    height={heightPercentage(403)}
                     chartConfig={chartConfig}
                     withVerticalLines={false}
-                    xLabelsOffset={10}
+                    xLabelsOffset={fontPercentage(10)}
                     style={{
-                      borderRadius: 12,
+                      borderRadius: fontPercentage(12),
                     }}
                   />
                 </styles.GraphView>
@@ -499,7 +528,10 @@ const SalesManage: React.FC = () => {
           ) : (
             <styles.CalendarBoxView>
               <styles.CalendarBoxImgView>
-                <CalendarImg2 width={29} height={30} />
+                <CalendarImg2
+                  width={widthPercentage(29)}
+                  height={heightPercentage(30)}
+                />
                 <styles.CalendarBoxText>매출 달력</styles.CalendarBoxText>
                 <styles.LastMonthRateView>
                   <styles.LastMonthRateText>
@@ -508,25 +540,6 @@ const SalesManage: React.FC = () => {
                 </styles.LastMonthRateView>
               </styles.CalendarBoxImgView>
               <styles.CalendarBox>
-                {/*<Calendar*/}
-                {/*  monthFormat={'yyyy년 MM월'}*/}
-                {/*  markingType={'period'}*/}
-                {/*  // onDayPress={day => {*/}
-                {/*  //   handleDaySelect(day);*/}
-                {/*  // }}*/}
-                {/*  // markedDates={markedDates}*/}
-                {/*  theme={{*/}
-                {/*    todayTextColor: 'rgba(255, 202, 66, 1)',*/}
-                {/*    dayTextColor: 'rgba(0, 0, 0, 1)',*/}
-                {/*    arrowColor: 'rgba(0, 0, 0, 0.6)',*/}
-                {/*    textDayFontWeight: '400',*/}
-                {/*    textMonthFontWeight: '500',*/}
-                {/*    textDayHeaderFontWeight: '300',*/}
-                {/*    textDayFontSize: 16,*/}
-                {/*    textMonthFontSize: 24,*/}
-                {/*    textDayHeaderFontSize: 16,*/}
-                {/*  }}*/}
-                {/*/>*/}
                 <SalesCalendar calendarData={calendarData} />
               </styles.CalendarBox>
             </styles.CalendarBoxView>

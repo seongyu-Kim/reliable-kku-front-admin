@@ -1,82 +1,7 @@
-// import * as styles from './SalesCalendar.styles';
-// import {Calendar} from 'react-native-calendars';
-// import {Alert, ScrollView, Text, View} from 'react-native';
-// import {useEffect, useState} from 'react';
-//
-// function getCurrentDate(): string {
-//   const today = new Date();
-//   const year = today.getFullYear().toString();
-//   const month = (today.getMonth() + 1).toString().padStart(2, '0');
-//   const day = today.getDate().toString().padStart(2, '0');
-//   return `${year}-${month}-${day}`;
-// }
-//
-// interface CalendarProps {
-//   orderedDay: number;
-//   isOrdered: boolean;
-// }
-//
-// const SalesCalendar = () => {
-//   // const [month, setMonth] = useState(new Date().getMonth() + 1); // +1을 추가하여 1부터 12까지의 월 값을 얻습니다.
-//   // const [year, setYear] = useState(new Date().getFullYear());
-//   //
-//   // const [calendar, setCalendar] = useState<CalendarProps[]>([]);
-//
-//   return (
-//     // <styles.Box>
-//     <Calendar
-//       theme={{
-//         calendarBackground: '#F5F5F5',
-//         arrowColor: '#0000004D',
-//         todayTextColor: '#FFF',
-//         // textDayFontWeight: '400',
-//         // textDayFontWeight: 'bold',
-//         // textMonthFontWeight: '500',
-//         // textDayHeaderFontWeight: '300',
-//         // textDayFontSize: 16,
-//       }}
-//       hideExtraDays={true}
-//       dayComponent={({date, state, marking, theme}) => {
-//         if (date === undefined) {
-//           return <></>;
-//         }
-//
-//         // const matchingDate = calendar.find(
-//         //   item => item.orderedDay === date?.day,
-//         // );
-//
-//         return (
-//           <styles.CalendarBox>
-//             <styles.CalenderTextBox
-//               style={{
-//                 backgroundColor:
-//                   date.dateString === getCurrentDate() ? '#FFCA42' : '',
-//               }}>
-//               <Text>{date.day}</Text>
-//             </styles.CalenderTextBox>
-//
-//             <Text>+1,000</Text>
-//           </styles.CalendarBox>
-//         );
-//       }}
-//       renderHeader={date => {
-//         const year = date.toString('yyyy');
-//         const month = date.toString('MM');
-//         const formattedDate = `${year}년 ${month}월`;
-//         return <styles.Text>{formattedDate}</styles.Text>;
-//       }}
-//     />
-//     // {/*</styles.Box>
-//   );
-// };
-//
-// export default SalesCalendar;
-
 import * as styles from './SalesCalendar.styles';
 import {Calendar} from 'react-native-calendars';
-import {Text} from 'react-native';
-import {HeaderSalesView} from './SalesCalendar.styles';
 import React from 'react';
+import {fontPercentage} from '../../../common/ResponsiveSize';
 
 function getCurrentDate(): string {
   const today = new Date();
@@ -100,12 +25,8 @@ const SalesCalendar: React.FC<{calendarData: any}> = calendarData => {
           calendarBackground: '#F5F5F5',
           arrowColor: '#0000004D',
           todayTextColor: '#fff',
-          textDayHeaderFontSize: 21,
+          textDayHeaderFontSize: fontPercentage(21),
           dayTextColor: '#2d4150',
-          // textDayFontWeight: '400',
-          // textDayFontWeight: 'bold',
-          // textMonthFontWeight: '500',
-          // textDayHeaderFontWeight: '300',
         }}
         hideExtraDays={true}
         dayComponent={({date, state, marking, theme}) => {
