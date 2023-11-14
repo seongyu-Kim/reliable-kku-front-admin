@@ -9,6 +9,7 @@ import StockManage from '../../pages/side-menu/stock-manage/StockManage';
 import MemberManage from '../../pages/side-menu/member-manage/MemberManage';
 import SalesManage from '../../pages/side-menu/sales-manage/SalesManage';
 import LogoutManage from '../../pages/side-menu/logout-manage/LogoutManage';
+import {heightPercentage, widthPercentage} from '../ResponsiveSize';
 
 const TopMenu: React.FC<{
   isSideMenuVisible: any;
@@ -68,12 +69,12 @@ const TopMenu: React.FC<{
   return (
     <>
       <styles.MenuImg onPress={handleSideMenuToggle}>
-        <Menu width={34} height={28.138} />
+        <Menu width={widthPercentage(34)} height={heightPercentage(28.138)} />
       </styles.MenuImg>
 
       {isSideMenuVisible && (
         <styles.SideMenuView>
-          <Margin height={153.25} />
+          <Margin height={heightPercentage(153.25)} />
 
           <TouchableOpacity
             onPress={() => {
@@ -85,7 +86,7 @@ const TopMenu: React.FC<{
             </styles.SideMenuText>
           </TouchableOpacity>
 
-          <Margin height={79.69} />
+          <Margin height={heightPercentage(79.69)} />
 
           <TouchableOpacity
             onPress={() => {
@@ -97,7 +98,7 @@ const TopMenu: React.FC<{
             </styles.SideMenuText>
           </TouchableOpacity>
 
-          <Margin height={79.69} />
+          <Margin height={heightPercentage(79.69)} />
 
           <TouchableOpacity
             onPress={() => {
@@ -109,7 +110,7 @@ const TopMenu: React.FC<{
             </styles.SideMenuText>
           </TouchableOpacity>
 
-          <Margin height={79.69} />
+          <Margin height={heightPercentage(79.69)} />
 
           <TouchableOpacity
             onPress={() => {
@@ -121,7 +122,7 @@ const TopMenu: React.FC<{
             </styles.SideMenuText>
           </TouchableOpacity>
 
-          <Margin height={79.69} />
+          <Margin height={heightPercentage(79.69)} />
 
           <TouchableOpacity
             onPress={() => {
@@ -133,12 +134,15 @@ const TopMenu: React.FC<{
             </styles.SideMenuText>
           </TouchableOpacity>
           <styles.SideMenuCat>
-            <SideMenuCat width={98} height={98} />
+            <SideMenuCat
+              width={widthPercentage(98)}
+              height={heightPercentage(98)}
+            />
           </styles.SideMenuCat>
         </styles.SideMenuView>
       )}
 
-      <Margin height={35} />
+      <Margin height={heightPercentage(35)} />
 
       {isSideMenuVisible ? (
         <>

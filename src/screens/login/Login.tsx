@@ -11,6 +11,10 @@ import {
 } from '@react-navigation/native';
 import {BASE_API} from '../../api/CommonApi';
 import {MMKVLoader} from 'react-native-mmkv-storage';
+import {
+  heightPercentage,
+  widthPercentage,
+} from '../../components/common/ResponsiveSize';
 const MMKV = new MMKVLoader().initialize();
 
 const Login: React.FC<{}> = () => {
@@ -72,7 +76,8 @@ const Login: React.FC<{}> = () => {
 
   return (
     <styles.Container>
-      <Margin height={257} />
+      <Margin height={heightPercentage(275)} />
+      {/*<Margin height={275} />*/}
 
       <styles.InputView>
         <styles.InputText
@@ -81,11 +86,11 @@ const Login: React.FC<{}> = () => {
           onChangeText={text => setUsername(text)}
         />
         <styles.InputImg>
-          <AdminId width={30} height={30} />
+          <AdminId width={widthPercentage(30)} height={heightPercentage(30)} />
         </styles.InputImg>
       </styles.InputView>
 
-      <Margin height={13} />
+      <Margin height={heightPercentage(13)} />
 
       <styles.InputView>
         <styles.InputText
@@ -94,11 +99,14 @@ const Login: React.FC<{}> = () => {
           onChangeText={text => setPassword(text)}
         />
         <styles.InputImg>
-          <AdminPassword width={30} height={30} />
+          <AdminPassword
+            width={widthPercentage(30)}
+            height={heightPercentage(30)}
+          />
         </styles.InputImg>
       </styles.InputView>
 
-      <Margin height={39} />
+      <Margin height={heightPercentage(39)} />
 
       <styles.AutoLoginView>
         <CheckBox
@@ -115,7 +123,7 @@ const Login: React.FC<{}> = () => {
         <styles.AutoLoginText>자동로그인</styles.AutoLoginText>
       </styles.AutoLoginView>
 
-      <Margin height={28} />
+      <Margin height={heightPercentage(28)} />
 
       <styles.LoginBtn onPress={() => handleLogin(username, password)}>
         <styles.LoginBtnText>Login</styles.LoginBtnText>
