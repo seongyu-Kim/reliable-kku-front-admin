@@ -111,14 +111,13 @@ const Login: React.FC<{}> = () => {
       <styles.AutoLoginView>
         <CheckBox
           disabled={false}
-          lineWidth={3}
           boxType="square"
-          tintColor="black"
           onCheckColor="black"
           onTintColor="black"
           animationDuration={0.2}
           value={autoLogin} // 자동 로그인 상태를 CheckBox에 반영
-          onValueChange={newValue => setAutoLogin(newValue)} // CheckBox 상태 변경 시 상태 업데이트
+          onValueChange={newValue => setAutoLogin(newValue)}
+          style={{width: widthPercentage(30), height: heightPercentage(30)}}
         />
         <styles.AutoLoginText>자동로그인</styles.AutoLoginText>
       </styles.AutoLoginView>
