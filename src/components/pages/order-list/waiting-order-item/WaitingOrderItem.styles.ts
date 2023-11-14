@@ -61,7 +61,7 @@ export const OrderContentText = styled.Text`
 
 export const HrLine = styled.View`
   border: ${fontPercentage(0.9)}px solid black;
-  width: 0px;
+  width: 0;
   height: ${heightPercentage(17)}px;
   align-self: center;
 `;
