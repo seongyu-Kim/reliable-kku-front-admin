@@ -1,4 +1,9 @@
 import styled from 'styled-components/native';
+import {
+  fontPercentage,
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 export const OrderModalView = styled.View`
   position: absolute;
@@ -11,25 +16,25 @@ export const OrderModalView = styled.View`
 `;
 
 export const OrderModal = styled.View`
-  width: 560px;
-  height: 174px;
+  width: ${widthPercentage(560)}px;
+  height: ${heightPercentage(174)}px;
   flex-shrink: 0;
-  border-radius: 12px;
+  border-radius: ${fontPercentage(12)}px;
   background: #fff;
 `;
 
 export const CloseBtnImg = styled.TouchableOpacity`
   position: absolute;
-  top: 14.77px;
-  left: 19px;
+  top: ${heightPercentage(14.77)}px;
+  left: ${widthPercentage(19)}px;
 `;
 
 export const ModalContent = styled.Text`
   color: #000;
-  font-size: 24px;
+  font-size: ${fontPercentage(24)}px;
   font-weight: 800;
   text-align: center;
-  margin-top: 35px;
+  margin-top: ${heightPercentage(35)}px;
 `;
 
 export const OrderModalBtnView = styled.View`
@@ -38,17 +43,17 @@ export const OrderModalBtnView = styled.View`
 `;
 
 export const OrderModalBtn = styled.TouchableOpacity`
-  width: 208px;
-  height: 54px;
+  width: ${widthPercentage(208)}px;
+  height: ${heightPercentage(54)}px;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
+  border-radius: ${fontPercentage(12)}px;
   background: #ffca42;
-  margin: 36px 0px;
+  margin: ${heightPercentage(36)}px 0px;
 `;
 
 export const BtnText = styled.Text`
   color: #000;
-  font-size: 24px;
+  font-size: ${fontPercentage(24)}px;
   font-weight: 700;
 `;

@@ -2,6 +2,10 @@ import React from 'react';
 import {Modal} from 'react-native';
 import * as styles from './ReceiptPickupModal.styles';
 import CloseButton from '../../../../assets/images/closeButton.svg';
+import {
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 const ReceiptPickupModal: React.FC<{
   handleCloseModal: any;
@@ -17,7 +21,10 @@ const ReceiptPickupModal: React.FC<{
           {/* 모달위부분 */}
 
           <styles.CloseBtnImg onPress={handleCloseModal}>
-            <CloseButton width={30} height={30} />
+            <CloseButton
+              width={widthPercentage(30)}
+              height={heightPercentage(30)}
+            />
           </styles.CloseBtnImg>
 
           {/* 모달내용 */}

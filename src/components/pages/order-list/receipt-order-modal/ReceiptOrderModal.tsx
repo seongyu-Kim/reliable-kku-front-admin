@@ -3,6 +3,10 @@ import {Modal} from 'react-native';
 import * as styles from './ReceiptOrderModal.styles';
 import CloseButton from '../../../../assets/images/closeButton.svg';
 import Margin from '../../../common/margin/Margin';
+import {
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 const ReceiptOrderModal: React.FC<{
   id: any;
@@ -32,15 +36,18 @@ const ReceiptOrderModal: React.FC<{
           {/* 모달위부분 */}
           <styles.OrderModalTop>
             <styles.CloseBtnImg onPress={handleCloseModal}>
-              <CloseButton width={30} height={30} />
+              <CloseButton
+                width={widthPercentage(30)}
+                height={heightPercentage(30)}
+              />
             </styles.CloseBtnImg>
 
-            <Margin width={106} />
+            <Margin width={widthPercentage(106)} />
             <styles.OrderModalTopText>{time}</styles.OrderModalTopText>
-            <Margin width={84} />
+            <Margin width={widthPercentage(84)} />
 
             <styles.OrderModalTopText>010-7615-2022</styles.OrderModalTopText>
-            <Margin width={83} />
+            <Margin width={widthPercentage(83)} />
 
             <styles.OrderModalTopText>
               주문번호 {parseInt(id)}
