@@ -2,19 +2,16 @@ import React, {useState, useEffect} from 'react';
 import {Modal, FlatList} from 'react-native';
 import * as styles from './OnSiteOrderLayout.styles';
 import CloseButton from '../../../../assets/images/closeButton.svg';
-import OnSiteRedBean from '../../../../assets/images/onSiteRedBean.svg';
 import Margin from '../../../common/margin/Margin';
-// import menus from '../../../../data/mockMenu';
 import PlusButton from '../../../../assets/images/plusButton.svg';
 import MinusButton from '../../../../assets/images/minusButton.svg';
 import OnSiteKeypad from '../on-site-keypad/OnSiteKeypad';
-import {useNavigation} from '@react-navigation/native';
 import {Image} from 'react-native';
-import axios from 'axios';
 import {BASE_API} from '../../../../api/CommonApi';
-// import {MMKVLoader} from 'react-native-mmkv-storage';
-
-// const MMKV = new MMKVLoader().initialize();
+import {
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 const OnSiteOrderLayout: React.FC<{
   isModalVisible: any;
@@ -144,7 +141,11 @@ const OnSiteOrderLayout: React.FC<{
     <styles.ProductCounter>
       <styles.ProductHeaderView>
         <styles.RedBeanImg>
-          <Image source={{uri: item.imageUrl}} width={59} height={61} />
+          <Image
+            source={{uri: item.imageUrl}}
+            width={widthPercentage(59)}
+            height={heightPercentage(61)}
+          />
         </styles.RedBeanImg>
         <styles.ProductText1>{item.menuName}</styles.ProductText1>
       </styles.ProductHeaderView>
@@ -153,10 +154,13 @@ const OnSiteOrderLayout: React.FC<{
       <styles.ProductPrice>{item.pricePerOne}원</styles.ProductPrice>
 
       <styles.MinusButton onPress={() => handleDecrement(item.menuId)}>
-        <MinusButton height={18} width={18} />
+        <MinusButton
+          height={heightPercentage(20)}
+          width={widthPercentage(20)}
+        />
       </styles.MinusButton>
       <styles.PlusButton onPress={() => handleIncrement(item.menuId)}>
-        <PlusButton height={18} width={18} />
+        <PlusButton height={heightPercentage(20)} width={widthPercentage(20)} />
       </styles.PlusButton>
       <styles.ProductCount>
         {menuQuantities.find(menu => menu.menuId === item.menuId)?.quantity ||
@@ -170,18 +174,21 @@ const OnSiteOrderLayout: React.FC<{
       <Modal animationType="slide" transparent={true} visible={isModalVisible}>
         <styles.OnSiteView>
           <styles.CloseButtonImg onPress={handleCloseModal}>
-            <CloseButton width={40} height={40} />
+            <CloseButton
+              height={heightPercentage(40)}
+              width={widthPercentage(40)}
+            />
           </styles.CloseButtonImg>
 
-          <Margin height={31} />
+          <Margin height={heightPercentage(31)} />
 
           <styles.OnSiteTitle>현장접수</styles.OnSiteTitle>
 
-          <Margin height={29} />
+          <Margin height={heightPercentage(29)} />
 
           <styles.HrLine />
 
-          <Margin height={57.27} />
+          <Margin height={heightPercentage(57.27)} />
 
           <styles.OnSiteContentView>
             <styles.ProductCounterView>

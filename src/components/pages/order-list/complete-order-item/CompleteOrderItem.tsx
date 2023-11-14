@@ -1,7 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import CloseButton from '../../../assets/images/closeButton.svg';
-import YellowBtn from '../../../common/yellow-btn/YellowBtn';
+import React, {useState} from 'react';
 import * as styles from './CompleteOrderItem.styles';
 import CompleteOrderModal from '../complete-order-modal/CompleteOrderModal';
 import CompleteRestoreModal from '../complete-order-modal/CompleteRestoreModal';
@@ -41,22 +38,22 @@ const CompleteOrderItem: React.FC<{
     return formattedTime;
   };
 
-  // let orderId = item.orderId;
+  let orderId = item.orderId;
 
   //주문서 복구
-  // const handleRestorePress = async () => {
-  //   try {
-  //     const response = await axios.patch(
-  //       `https://dev.deunku.com/api/v1/admin/orders/${orderId}/recovery`,
-  //     );
+  const handleRestorePress = async () => {
+    try {
+      const response = await axios.patch(
+        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/recovery`,
+      );
 
-  //     console.log(response);
-  //     setRestoreModalVisible(false);
-  //   } catch (error) {
-  //     console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-  //     console.error('복구 실패:', error);
-  //   }
-  // };
+      console.log(response);
+      setRestoreModalVisible(false);
+    } catch (error) {
+      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      console.error('복구 실패:', error);
+    }
+  };
 
   return (
     <>
@@ -101,11 +98,11 @@ const CompleteOrderItem: React.FC<{
                 <styles.OrderContentText>{menu.count}</styles.OrderContentText>
               </styles.OrderContentView>
               <styles.OrderContentTime>
-                소요시간:{`   `}
+                소요시간:{'   '}
                 {item.timeTakenMinutes}
               </styles.OrderContentTime>
               <styles.OrderContentCnt>
-                총 주문수량:{`   `}
+                총 주문수량:{'   '}
                 {item.allCount}
               </styles.OrderContentCnt>
             </>
@@ -120,7 +117,7 @@ const CompleteOrderItem: React.FC<{
       <CompleteRestoreModal
         restoreModalVisible={restoreModalVisible}
         handleCloseModal={handleCloseModal}
-        // handleRestorePress={handleRestorePress}
+        handleRestorePress={handleRestorePress}
       />
     </>
   );

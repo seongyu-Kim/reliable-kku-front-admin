@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import {Text} from 'react-native';
 import * as styles from './OnSiteKeypad.styles';
 
 const OnSiteKeypad: React.FC<{
   onPhoneNumberChange: (newPhoneNumber: string) => void;
 }> = ({onPhoneNumberChange}) => {
-  const [userInput, setUserInput] = useState('');
+  const [userInput, setUserInput] = useState('010-');
 
   const handleNumberPress = (number: string | number) => {
     const cleanedNumber = (userInput + number).replace(/[^\d]/g, '');
@@ -32,7 +31,7 @@ const OnSiteKeypad: React.FC<{
   };
 
   const handleClearPress = () => {
-    setUserInput('');
+    setUserInput('010-');
   };
 
   const keypadButtons = [
@@ -51,7 +50,9 @@ const OnSiteKeypad: React.FC<{
             <styles.KeypadButton
               key={index}
               onPress={() => {
-                if (button === null) return;
+                if (button === null) {
+                  return;
+                }
                 if (button === '지우기') {
                   handleBackspacePress();
                 } else if (button === '초기화') {

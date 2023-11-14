@@ -1,13 +1,18 @@
 import styled from 'styled-components/native';
+import {
+  fontPercentage,
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 export const KeyPadView = styled.View`
-  width: 385px;
-  height: 401px;
+  width: ${widthPercentage(385)}px;
+  height: ${heightPercentage(401)}px;
   flex-shrink: 0;
-  border-radius: 12px;
+  border-radius: ${fontPercentage(12)}px;
   background: #fbfbfb;
-  top: 11.5px;
-  margin-left: 65px;
+  top: ${heightPercentage(11.5)}px;
+  margin-left: ${widthPercentage(65)}px;
   justify-content: space-around;
 `;
 
@@ -16,27 +21,27 @@ export const KeyPadRowView = styled.View`
 `;
 
 export const KeypadButton = styled.TouchableOpacity`
-  width: 129px;
-  height: 75px;
-  padding: 8px;
+  width: ${widthPercentage(129)}px;
+  height: ${heightPercentage(75)}px;
+  padding: ${heightPercentage(8)}px;
   justify-content: center;
   align-items: center;
-  border-radius: 11px;
+  border-radius: ${fontPercentage(11)}px;
   border: 1px solid #b1b1b1;
 `;
 
 export const KeypadButtonText = styled.Text`
   color: #000;
-  font-size: 24px;
+  font-size: ${fontPercentage(24)}px;
   font-weight: 400;
 `;
 
 export const UserInputNumber = styled.Text`
   color: #000;
   text-align: center;
-  font-size: 32px;
+  font-size: ${fontPercentage(32)}px;
   font-weight: 600;
-  height: 104px;
-  width: 385px;
-  top: 33px;
+  height: ${heightPercentage(104)}px;
+  width: ${widthPercentage(385)}px;
+  top: ${heightPercentage(33)}px;
 `;

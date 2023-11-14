@@ -1,20 +1,25 @@
 import styled from 'styled-components/native';
+import {
+  fontPercentage,
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 export const SiteOrderBtnView = styled.TouchableOpacity`
   position: absolute;
-  width: 1030px;
-  height: 104px;
+  width: ${widthPercentage(1030)}px;
+  height: ${heightPercentage(104)}px;
   flex-shrink: 0;
-  border-radius: 12px;
+  border-radius: ${fontPercentage(12)}px;
   background: #000;
-  top: 690.55px;
+  top: ${heightPercentage(690.55)}px;
   justify-content: center;
   align-items: center;
 `;
 
 export const SiteOrderBtnText = styled.Text`
   color: #fff;
-  font-size: 40px;
+  font-size: ${fontPercentage(40)}px;
   font-weight: 700;
   z-index: 3;
 `;

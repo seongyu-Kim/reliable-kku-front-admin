@@ -6,8 +6,8 @@ import CloseButton from '../../../../assets/images/closeButton.svg';
 const CompleteRestoreModal: React.FC<{
   handleCloseModal: any;
   restoreModalVisible: any;
-  // handleRestorePress: any;
-}> = ({handleCloseModal, restoreModalVisible}) => {
+  handleRestorePress: any;
+}> = ({handleCloseModal, restoreModalVisible, handleRestorePress}) => {
   return (
     <Modal
       animationType="slide"
@@ -25,7 +25,7 @@ const CompleteRestoreModal: React.FC<{
           <styles.ModalContent>주문서를 복구시키겠습니까?</styles.ModalContent>
 
           <styles.OrderModalBtnView>
-            <styles.OrderModalBtn1 onPress={handleCloseModal}>
+            <styles.OrderModalBtn1 onPress={handleRestorePress}>
               <styles.BtnText>예</styles.BtnText>
             </styles.OrderModalBtn1>
             <styles.OrderModalBtn2 onPress={handleCloseModal}>

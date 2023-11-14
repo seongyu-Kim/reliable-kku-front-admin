@@ -1,17 +1,21 @@
 import styled from 'styled-components/native';
+import {
+  fontPercentage,
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
-//1030
 export const OrderView = styled.View`
-  width: 1044px;
-  height: 476px;
-  top: 64.23px;
+  width: ${widthPercentage(1044)}px;
+  height: ${heightPercentage(476)}px;
+  top: ${widthPercentage(64.23)}px;
 `;
 
 export const TotalOrderCnt = styled.Text`
   position: absolute;
   color: #000;
-  font-size: 32px;
+  font-size: ${fontPercentage(32)}px;
   font-weight: 600;
-  top: 500px;
-  right: 5px;
+  top: ${heightPercentage(480)}px;
+  right: ${widthPercentage(5)}px;
 `;
