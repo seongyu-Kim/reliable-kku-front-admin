@@ -156,7 +156,7 @@ const OrderListLayout: React.FC<{
     };
 
     fetchData();
-  }, [orderStatus]);
+  }, [orderStatus, isClicked]);
 
   // const totalBunCount = orders.reduce((acc, order) => {
   //   const bunCount = order.menuResponse.reduce((menuAcc, menu) => {
