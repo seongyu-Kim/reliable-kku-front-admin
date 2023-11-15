@@ -1,28 +1,38 @@
-import React, {useState} from 'react';
+import React, {SetStateAction, useState} from 'react';
 import * as styles from './SiteOrderBtn.styles';
 import OnSiteOrderLayout from '../on-site-order-laytout/OnSiteOrderLayout';
 
-const SiteOrderBtn: React.FC = () => {
-    const [isModalVisible, setModalVisible] = useState(false);
+type SiteOrderBtnProps = {
+  isClicked: boolean;
+  setIsClicked: React.Dispatch<SetStateAction<boolean>>;
+};
 
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
-    };
+const SiteOrderBtn: React.FC<SiteOrderBtnProps> = ({
+  isClicked,
+  setIsClicked,
+}) => {
+  const [isModalVisible, setModalVisible] = useState(false);
 
-    return (
-        <>
-            <styles.SiteOrderBtnView onPress={toggleModal}>
-                <styles.SiteOrderBtnText>현장 접수</styles.SiteOrderBtnText>
-            </styles.SiteOrderBtnView>
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
-            {isModalVisible && (
-                <OnSiteOrderLayout
-                    isModalVisible={isModalVisible}
-                    setModalVisible={setModalVisible}
-                />
-            )}
-        </>
-    );
+  return (
+    <>
+      <styles.SiteOrderBtnView onPress={toggleModal}>
+        <styles.SiteOrderBtnText>현장 접수</styles.SiteOrderBtnText>
+      </styles.SiteOrderBtnView>
+
+      {isModalVisible && (
+        <OnSiteOrderLayout
+          isModalVisible={isModalVisible}
+          setModalVisible={setModalVisible}
+          isClicked={isClicked}
+          setIsClicked={setIsClicked}
+        />
+      )}
+    </>
+  );
 };
 
 export default SiteOrderBtn;

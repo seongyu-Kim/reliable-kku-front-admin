@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, Image, TouchableOpacity} from 'react-native';
+import React, {SetStateAction, useEffect, useState} from 'react';
+import {FlatList, Image, ScrollView, TouchableOpacity} from 'react-native';
 import PlusMenu from '../../../../assets/images/stockPlusMenu.svg';
 import * as styles from './StockManage.styles';
 import PlusMenuModal from './PlusMenuModal';
@@ -9,27 +9,50 @@ import {
   heightPercentage,
   widthPercentage,
 } from '../../../common/ResponsiveSize';
+import {useFocusEffect} from '@react-navigation/native';
 
 const StockManage: React.FC = () => {
   const [isPlusMenuModal, setPlusMenuModal] = useState(false);
   const [menus, setMenus] = useState<any[]>([]);
+
+  const [isClicked, setIsClicked] = useState(false);
+
   // const [isSale, setSale] = useState();
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchMenus = async () => {
+        setMenus([]);
+        await BASE_API.get('https://dev.deunku.com/api/v1/admin/menu')
+          .then(response => {
+            setMenus(response.data);
+            console.log(response.data);
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+          })
+          .catch(error => {
+            console.error('Error fetching es:', error);
+          });
+      };
+      fetchMenus();
+    }, [isClicked]),
+  );
+
   //메뉴
-  useEffect(() => {
-    const fetchMenus = async () => {
-      await BASE_API.get('https://dev.deunku.com/api/v1/admin/menu')
-        .then(response => {
-          setMenus(response.data);
-          console.log(response.data);
-          console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-        })
-        .catch(error => {
-          console.error('Error fetching es:', error);
-        });
-    };
-    fetchMenus();
-  }, []);
+  // useEffect(() => {
+  //   const fetchMenus = async () => {
+  //     setMenus([]);
+  //     await BASE_API.get('https://dev.deunku.com/api/v1/admin/menu')
+  //       .then(response => {
+  //         setMenus(response.data);
+  //         console.log(response.data);
+  //         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+  //       })
+  //       .catch(error => {
+  //         console.error('Error fetching es:', error);
+  //       });
+  //   };
+  //   fetchMenus();
+  // }, [isClicked]);
 
   //품절여부
   const handleSoldOutPress = async (menuId: number, isSoldOut: boolean) => {
@@ -57,14 +80,13 @@ const StockManage: React.FC = () => {
 
   const handleDeletePress = async (menuId: number) => {
     try {
-      const response = await BASE_API.delete(
+      await BASE_API.delete(
         `https://dev.deunku.com/api/v1/admin/menu/${menuId}`,
-      );
-
-      console.log(response);
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!');
+      ).then(() => {
+        setIsClicked(!isClicked);
+        setIsClicked(!isClicked);
+      });
     } catch (error) {
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       console.error('삭제 실패:', error);
     }
   };
@@ -73,47 +95,43 @@ const StockManage: React.FC = () => {
     setPlusMenuModal(!isPlusMenuModal);
   };
 
-  const renderItem = ({item}: {item: any}) => (
-    <styles.StockManageView>
-      <Margin width={0} height={heightPercentage(62)} />
-      <TouchableOpacity onPress={() => handleDeletePress(item.menuId)}>
-        <styles.StockDeleteText>삭제</styles.StockDeleteText>
-      </TouchableOpacity>
-      <Margin width={0} height={heightPercentage(5)} />
-
-      <styles.StockTitle>{item.menuName}</styles.StockTitle>
-      <styles.StockCatImg>
-        <Image
-          source={{uri: item.imageUrl}}
-          height={heightPercentage(220)}
-          width={widthPercentage(220)}
-        />
-      </styles.StockCatImg>
-      <Margin width={0} height={heightPercentage(18)} />
-      <styles.StockBtn
-        disabled={!item.isSale}
-        onPress={() => handleSoldOutPress(item.menuId, item.isSale)}>
-        <styles.StockBtnText>품절</styles.StockBtnText>
-      </styles.StockBtn>
-      <Margin width={0} height={heightPercentage(14)} />
-      <styles.StockBtn
-        disabled={item.isSale}
-        onPress={() => handleSoldOutPress(item.menuId, item.isSale)}>
-        <styles.StockBtnText>품절해제</styles.StockBtnText>
-      </styles.StockBtn>
-    </styles.StockManageView>
-  );
-
   return (
     <>
       <styles.StockManageBox>
         <styles.StockMangeDiv>
-          <FlatList
-            data={menus}
-            renderItem={renderItem}
-            keyExtractor={item => item.menuId.toString()}
-            horizontal
-          />
+          <ScrollView horizontal>
+            {menus.map(menu => (
+              <styles.StockManageView key={menu.menuId}>
+                <Margin width={0} height={heightPercentage(62)} />
+                <TouchableOpacity
+                  onPress={() => handleDeletePress(menu.menuId)}>
+                  <styles.StockDeleteText>삭제</styles.StockDeleteText>
+                </TouchableOpacity>
+                <Margin width={0} height={heightPercentage(5)} />
+
+                <styles.StockTitle>{menu.menuName}</styles.StockTitle>
+                <styles.StockCatImg>
+                  <Image
+                    source={{uri: menu.imageUrl}}
+                    height={heightPercentage(220)}
+                    width={widthPercentage(220)}
+                  />
+                </styles.StockCatImg>
+                <Margin width={0} height={heightPercentage(18)} />
+                <styles.StockBtn
+                  disabled={!menu.isSale}
+                  onPress={() => handleSoldOutPress(menu.menuId, menu.isSale)}>
+                  <styles.StockBtnText>품절</styles.StockBtnText>
+                </styles.StockBtn>
+                <Margin width={0} height={heightPercentage(14)} />
+                <styles.StockBtn
+                  disabled={menu.isSale}
+                  onPress={() => handleSoldOutPress(menu.menuId, menu.isSale)}>
+                  <styles.StockBtnText>품절해제</styles.StockBtnText>
+                </styles.StockBtn>
+              </styles.StockManageView>
+            ))}
+          </ScrollView>
           <styles.StockPlusBtn onPress={handlePlusModal}>
             <PlusMenu
               width={widthPercentage(27)}
@@ -128,6 +146,8 @@ const StockManage: React.FC = () => {
           isPlusMenuModal={isPlusMenuModal}
           handlePlusModal={handlePlusModal}
           setPlusMenuModal={setPlusMenuModal}
+          isClicked={isClicked}
+          setIsClicked={setIsClicked}
         />
       )}
     </>

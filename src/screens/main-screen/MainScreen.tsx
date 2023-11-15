@@ -12,6 +12,8 @@ const MainScreen: React.FC = () => {
 
   const [selectedSideMenu, setSelectedSideMenu] = useState<string>('');
 
+  const [isClicked, setIsClicked] = useState(false);
+
   return (
     <styles.Container>
       <TopMenu
@@ -21,12 +23,16 @@ const MainScreen: React.FC = () => {
         setSelectedTopMenu={setSelectedTopMenu}
         setSelectedSideMenu={setSelectedSideMenu}
         selectedSideMenu={selectedSideMenu}
+        isClicked={isClicked}
+        setIsClicked={setIsClicked}
       />
       {isSideMenuVisible && selectedSideMenu}
 
       <OrderListLayout
         isSideMenuVisible={isSideMenuVisible}
         selectedTopMenu={selectedTopMenu}
+        isClicked={isClicked}
+        setIsClicked={setIsClicked}
       />
     </styles.Container>
   );

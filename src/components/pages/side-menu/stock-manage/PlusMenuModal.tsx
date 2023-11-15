@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {SetStateAction, useState} from 'react';
 import {Image, Modal} from 'react-native';
 import * as styles from './PlusMenuModal.styles';
 import CloseButton from '../../../../assets/images/closeButton.svg';
@@ -22,7 +22,15 @@ const PlusMenuModal: React.FC<{
   isPlusMenuModal: any;
   setPlusMenuModal: any;
   handlePlusModal: any;
-}> = ({isPlusMenuModal, handlePlusModal, setPlusMenuModal}) => {
+  isClicked: boolean;
+  setIsClicked: React.Dispatch<SetStateAction<boolean>>;
+}> = ({
+  isPlusMenuModal,
+  handlePlusModal,
+  setPlusMenuModal,
+  isClicked,
+  setIsClicked,
+}) => {
   const [imgModalVisible, setImgModalVisible] = useState(false);
   const [_, setSelectedOption] = useState<number | null>(null); // 선택된 옵션의 타입을 명시
   const [file, setFile] = useState<ImagePickerResponse | null>();
@@ -55,7 +63,7 @@ const PlusMenuModal: React.FC<{
         // new Blob([jsonString], {type: 'application/json', lastModified: 1}),
       );
 
-      const response = await BASE_API.post(
+      await BASE_API.post(
         'https://dev.deunku.com/api/v1/admin/create-menu',
         formData,
         {
@@ -63,12 +71,14 @@ const PlusMenuModal: React.FC<{
             'Content-Type': 'multipart/form-data',
           },
         },
-      );
-      setImgModalVisible(false);
-      setPlusMenuModal(false);
-      console.log(response);
+      ).then(() => {
+        setImgModalVisible(false);
+        setPlusMenuModal(false);
+        setIsClicked(!isClicked);
+      });
     } catch (error) {
       console.log('메뉴추가 실패:', error);
+      setIsClicked(!isClicked);
     }
   };
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Modal} from 'react-native';
 import * as styles from './WaitingCancelModal2.styles';
 import CloseButton from '../../../../assets/images/closeButton.svg';

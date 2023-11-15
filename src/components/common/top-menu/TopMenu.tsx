@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {SetStateAction} from 'react';
 import {TouchableOpacity} from 'react-native';
 import * as styles from './TopMenu.styles';
 import Margin from '../margin/Margin';
@@ -18,6 +18,8 @@ const TopMenu: React.FC<{
   setSelectedTopMenu: any;
   selectedSideMenu: string;
   setSelectedSideMenu: any;
+  isClicked: boolean;
+  setIsClicked: React.Dispatch<SetStateAction<boolean>>;
 }> = ({
   isSideMenuVisible,
   setIsSideMenuVisible,
@@ -77,6 +79,7 @@ const TopMenu: React.FC<{
           <Margin width={0} height={heightPercentage(153.25)} />
 
           <TouchableOpacity
+            hitSlop={{bottom: 20, top: 20, left: 20, right: 20}}
             onPress={() => {
               handleSideMenuPress('영업관리');
             }}>

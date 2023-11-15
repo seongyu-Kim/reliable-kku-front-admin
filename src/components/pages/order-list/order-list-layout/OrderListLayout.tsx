@@ -12,10 +12,11 @@ import Sound from 'react-native-sound';
 const OrderListLayout: React.FC<{
   isSideMenuVisible: boolean;
   selectedTopMenu: string;
-}> = ({isSideMenuVisible, selectedTopMenu}) => {
+  isClicked: boolean;
+  setIsClicked: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({isSideMenuVisible, selectedTopMenu, isClicked, setIsClicked}) => {
   //
   const [orders, setOrders] = useState<Order[]>([]);
-  const [isClicked, setIsClicked] = useState(false);
 
   let renderItemComponent: any;
   let orderStatus: string = '';
@@ -211,7 +212,7 @@ const OrderListLayout: React.FC<{
           접수 총 주문 수량: {totalBunCount}개
         </styles.TotalOrderCnt>
       </styles.OrderView>
-      <SiteOrderBtn />
+      <SiteOrderBtn isClicked={isClicked} setIsClicked={setIsClicked} />
     </>
   );
 };

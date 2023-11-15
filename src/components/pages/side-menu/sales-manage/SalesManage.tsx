@@ -122,7 +122,7 @@ const SalesManage: React.FC = () => {
   useEffect(() => {
     const fetchGraph = () => {
       BASE_API.get(
-        'https://dev.deunku.com/api/v1/admin/sales/monthly?date=2023-11-09',
+        `https://dev.deunku.com/api/v1/admin/sales/monthly?date=${selectedStartDate}`,
       )
         .then(
           (
@@ -141,8 +141,8 @@ const SalesManage: React.FC = () => {
               data: item.totalPrice,
             }));
             setGraph(response.data);
-            console.log(response.data);
             console.log('그래그래그래그프그래그래그래프');
+            console.log(response.data);
           },
         )
         .catch(error => {
@@ -160,14 +160,14 @@ const SalesManage: React.FC = () => {
         `https://dev.deunku.com/api/v1/admin/sales/calendar?date=${todayStartDate}`,
       )
         .then(response => {
-          setCalendarData(response.data);
+          console.log(response.data);
+          console.log('!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@');
           if (response.data.count === undefined) {
             let calender = calendarData;
             calender.total.push({refundTotalSales: 0, totalSales: 0});
             setCalendarData(calender);
           }
-          console.log(response.data);
-          console.log('!!!!@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+          setCalendarData(response.data);
         })
         .catch(error => {
           console.error('Error fetching fetchDates:', error);
@@ -333,7 +333,7 @@ const SalesManage: React.FC = () => {
     labels: graph.map(each => each.eachTime.split(':')[0] + '시'),
     datasets: [
       {
-        data: [...graph.map(each => each.totalPrice), 0],
+        data: [...graph.map(each => each.totalPrice)],
         color: () => '#5A7EFF',
       },
     ],
@@ -595,7 +595,12 @@ const SalesManage: React.FC = () => {
                 </styles.LastMonthRateView>
               </styles.CalendarBoxImgView>
               <styles.CalendarBox>
-                <SalesCalendar calendarData={calendarData} />
+                <SalesCalendar
+                  lastMonthOnMonth={calendarData.lastMonthOnMonth}
+                  totalSalesOfMonth={calendarData.totalSalesOfMonth}
+                  totalRefundSalesOfMonth={calendarData.totalRefundSalesOfMonth}
+                  total={calendarData.total}
+                />
               </styles.CalendarBox>
             </styles.CalendarBoxView>
           )}

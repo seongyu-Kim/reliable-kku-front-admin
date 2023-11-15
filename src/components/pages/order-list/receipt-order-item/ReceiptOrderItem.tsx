@@ -94,17 +94,11 @@ const ReceiptOrderItem: React.FC<{
   };
   //접수취소
   const handleCancelPress = async () => {
-    try {
-      const response = await BASE_API.delete(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
-      );
-
-      console.log(response);
+    await BASE_API.delete(
+      `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+    ).then(() => {
       setCancelModalVisible(false);
-    } catch (error) {
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-      console.error('취소 실패:', error);
-    }
+    });
   };
 
   //환불

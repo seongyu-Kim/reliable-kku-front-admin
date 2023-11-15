@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {SetStateAction, useEffect, useState} from 'react';
 import {FlatList, Image, Modal} from 'react-native';
 import * as styles from './OnSiteOrderLayout.styles';
 import CloseButton from '../../../../assets/images/closeButton.svg';
@@ -15,7 +15,9 @@ import {
 const OnSiteOrderLayout: React.FC<{
   isModalVisible: any;
   setModalVisible: any;
-}> = ({isModalVisible, setModalVisible}) => {
+  isClicked: boolean;
+  setIsClicked: React.Dispatch<SetStateAction<boolean>>;
+}> = ({isModalVisible, setModalVisible, isClicked, setIsClicked}) => {
   interface Menu {
     menuId: number;
     imageUrl: string;
@@ -26,100 +28,71 @@ const OnSiteOrderLayout: React.FC<{
     isSale: boolean;
   }
 
-  //
   const [menus, setMenus] = useState<Menu[]>([]);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [menuQuantities, setMenuQuantities] = useState(
-    menus.map(menu => ({...menu, quantity: 0})),
-  );
 
-  //
-  const handleIncrement = (id: number) => {
-    const updatedQuantities = menuQuantities.map(menu => {
-      if (menu.menuId === id) {
-        return {...menu, quantity: menu.quantity + 1};
-      }
-      return menu;
-    });
-    setMenuQuantities(updatedQuantities);
+  const [quantity, setQuantity] = useState<{[key: number]: number}>({});
+  const [totalPrice, setTotalPrice] = useState(0);
+  const increaseQuantity = (menuId: number) => {
+    setQuantity(prev => ({
+      ...prev,
+      [menuId]: (prev[menuId] || 0) + 1,
+    }));
   };
 
-  //
-  const handleDecrement = (id: number) => {
-    const updatedQuantities = menuQuantities.map(menu => {
-      if (menu.menuId === id && menu.quantity > 0) {
-        return {...menu, quantity: menu.quantity - 1};
-      }
-      return menu;
-    });
-    setMenuQuantities(updatedQuantities);
+  const decreaseQuantity = (menuId: number) => {
+    if (quantity[menuId] > 0) {
+      setQuantity(prev => ({
+        ...prev,
+        [menuId]: (prev[menuId] || 1) - 1,
+      }));
+    }
   };
   const handleCloseModal = () => {
     setModalVisible(false);
   };
+  useEffect(() => {
+    let total = 0;
 
-  // const calculateTotalPrice = () => {
-  //   let totalPrice = 0;
-  //   menuQuantities.forEach(menu => {
-  //     const {quantity, pricePerOne, pricePerThree} = menu;
-  //     let price = 0;
-  //
-  //     if (quantity >= 3) {
-  //       const setsOfThree = Math.floor(quantity / 3);
-  //       const remaining = quantity % 3;
-  //       price = setsOfThree * pricePerThree + remaining * pricePerOne;
-  //     } else {
-  //       price = quantity * pricePerOne;
-  //     }
-  //
-  //     totalPrice += price;
-  //   });
-  //
-  //   return Number(totalPrice);
-  // };
+    quantity[1] = quantity[1] ? quantity[1] : 0;
+    quantity[2] = quantity[2] ? quantity[2] : 0;
 
-  const calculateTotalPrice = () => {
-    let totalPrice = 0;
+    let menuId1And2Price = 0;
+    menuId1And2Price =
+      Math.floor((quantity[1] + quantity[2]) / 3) * 2000 +
+      ((quantity[1] + quantity[2]) % 3) * 700;
 
-    // 각 메뉴에 대해 수량에 따라 가격을 계산하여 합산
-    menuQuantities.forEach(menu => {
-      const {quantity, pricePerOne, pricePerThree} = menu;
-      let price = 0;
-
-      if ((menu.menuId === 1 || menu.menuId === 2) && quantity >= 3) {
-        const setsOfThree = Math.floor(quantity / 3);
-        const remaining = quantity % 3;
-        price = setsOfThree * pricePerThree + remaining * pricePerOne;
-      } else {
-        price = quantity * pricePerOne;
+    menus.forEach(menu => {
+      if ([1, 2].includes(menu.menuId)) {
+        return;
       }
 
-      totalPrice += price;
+      const orderedQuantity = quantity[menu.menuId] || 0;
+      const pricePerOne = menu.pricePerOne;
+      const pricePerThree = menu.pricePerThree;
+      let price = 0;
+
+      price =
+        Math.floor(orderedQuantity / 3) * pricePerThree +
+        (orderedQuantity % 3) * pricePerOne;
+
+      total += price;
     });
 
-    return Number(totalPrice);
-  };
+    total += menuId1And2Price;
 
-  //
+    setTotalPrice(total);
+  }, [quantity, menus]);
+
   const handlePhoneNumberChange = (newPhoneNumber: string) => {
     setPhoneNumber(newPhoneNumber);
   };
 
-  //
   useEffect(() => {
     const fetchMenus = async () => {
       await BASE_API.get('https://dev.deunku.com/api/v1/admin/menu')
-        .then(response => {
-          setMenus(response.data);
-          //
-          const updatedMenuQuantities = response.data.map((menu: any) => ({
-            ...menu,
-            quantity: 0,
-          }));
-          setMenuQuantities(updatedMenuQuantities);
-
-          console.log(response.data);
-          console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+        .then(res => {
+          setMenus(res.data);
         })
         .catch(error => {
           console.error('Error fetching orders:', error);
@@ -132,28 +105,31 @@ const OnSiteOrderLayout: React.FC<{
   //
   const handleOrder = async () => {
     try {
-      const orderedMenuData = menuQuantities
-        .filter(menu => menu.quantity > 0) // 수량이 0 이상인 메뉴만 선택
-        .map(menu => ({
-          menuId: menu.menuId,
-          count: menu.quantity,
-        }));
+      const orderedMenuData = Object.entries(quantity)
+        .filter(([, value]) => value > 0)
+        .reduce<{menuId: number; count: number}[]>((acc, [key, value]) => {
+          acc.push({menuId: parseInt(key), count: value} as {
+            menuId: number;
+            count: number;
+          });
+          return acc;
+        }, []);
+
+      console.log('orderedMenuDate >>>>>>>>>', orderedMenuData);
 
       const response = await BASE_API.post(
         'https://dev.deunku.com/api/v1/admin/offline-orders',
         {
           phoneNumber: phoneNumber,
-          totalPrice: calculateTotalPrice(),
+          totalPrice: totalPrice,
           registeredMenus: orderedMenuData,
         },
       );
 
       console.log(response);
       setModalVisible(false);
+      setIsClicked(!isClicked);
     } catch (error) {
-      console.log(phoneNumber);
-      console.log(calculateTotalPrice());
-
       console.error('주문 실패:', error);
     }
   };
@@ -174,19 +150,16 @@ const OnSiteOrderLayout: React.FC<{
       <styles.HrLine2 />
       <styles.ProductPrice>{item.pricePerOne}원</styles.ProductPrice>
 
-      <styles.MinusButton onPress={() => handleDecrement(item.menuId)}>
+      <styles.MinusButton onPress={() => decreaseQuantity(item.menuId)}>
         <MinusButton
           height={heightPercentage(20)}
           width={widthPercentage(20)}
         />
       </styles.MinusButton>
-      <styles.PlusButton onPress={() => handleIncrement(item.menuId)}>
+      <styles.PlusButton onPress={() => increaseQuantity(item.menuId)}>
         <PlusButton height={heightPercentage(20)} width={widthPercentage(20)} />
       </styles.PlusButton>
-      <styles.ProductCount>
-        {menuQuantities.find(menu => menu.menuId === item.menuId)?.quantity ||
-          0}
-      </styles.ProductCount>
+      <styles.ProductCount>{quantity[item.menuId] || 0}</styles.ProductCount>
     </styles.ProductCounter>
   );
 
@@ -229,9 +202,7 @@ const OnSiteOrderLayout: React.FC<{
           <styles.TotalPriceView>
             <styles.TotalPriceText>총 가격</styles.TotalPriceText>
             <styles.HrLine3 />
-            <styles.TotalPriceNum>
-              {calculateTotalPrice()}원
-            </styles.TotalPriceNum>
+            <styles.TotalPriceNum>{totalPrice}원</styles.TotalPriceNum>
           </styles.TotalPriceView>
           <styles.OrderButton onPress={handleOrder}>
             <styles.OrderButtonText>주문하기</styles.OrderButtonText>

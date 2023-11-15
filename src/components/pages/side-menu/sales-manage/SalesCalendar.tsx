@@ -24,20 +24,27 @@ const SalesCalendar = ({
   totalSalesOfMonth,
   totalRefundSalesOfMonth,
   total,
+  lastMonthOnMonth,
 }: CalendarDataProps) => {
   let totalSalesArray: number[] = [];
   let refundTotalSalesArray: number[] = [];
-  if (total === undefined) {
-    const date = new Date();
-    const days = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
-    for (let i = 0; i < days; i++) {
-      totalSalesArray.push(0);
-      refundTotalSalesArray.push(0);
-    }
-  } else {
-    totalSalesArray = total.map(item => item.totalSales);
-    refundTotalSalesArray = total.map(item => item.refundTotalSales);
-  }
+
+  console.log(totalSalesOfMonth);
+  console.log(totalRefundSalesOfMonth);
+  console.log(total);
+  console.log(lastMonthOnMonth);
+
+  // if (total === undefined) {
+  //   const date = new Date();
+  //   const days = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+  //   for (let i = 0; i < days; i++) {
+  //     totalSalesArray.push(i);
+  //     refundTotalSalesArray.push(i);
+  //   }
+  // } else {
+  totalSalesArray = total.map(item => item.totalSales);
+  refundTotalSalesArray = total.map(item => item.refundTotalSales);
+  // }
 
   return (
     <styles.Box>
@@ -50,7 +57,7 @@ const SalesCalendar = ({
           dayTextColor: '#2d4150',
         }}
         hideExtraDays={true}
-        dayComponent={({date, state, marking, theme}) => {
+        dayComponent={({date}) => {
           if (date === undefined) {
             return <></>;
           }
@@ -96,7 +103,7 @@ const SalesCalendar = ({
                       이번 달 총 환불
                     </styles.HeaderSalesText>
                     <styles.HeaderSalesText2>
-                      {totalRefundSalesOfMonth}
+                      - {totalRefundSalesOfMonth}
                     </styles.HeaderSalesText2>
                   </styles.HeaderSalesView2>
                 </styles.HeaderSalesView>

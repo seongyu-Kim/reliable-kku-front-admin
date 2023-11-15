@@ -17,8 +17,7 @@ const ReceiptCancelModal: React.FC<{
       animationType="slide"
       transparent={true}
       visible={cancelModalVisible}
-      supportedOrientations={['landscape']}
-    >
+      supportedOrientations={['landscape']}>
       <styles.OrderModalView>
         <styles.OrderModal>
           {/* 모달위부분 */}
