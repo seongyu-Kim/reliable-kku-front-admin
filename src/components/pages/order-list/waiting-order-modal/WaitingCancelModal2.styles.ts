@@ -27,6 +27,7 @@ export const CloseBtnImg = styled.TouchableOpacity`
   position: absolute;
   top: ${heightPercentage(14.77)}px;
   left: ${widthPercentage(19)}px;
+  z-index: 99;
 `;
 
 export const ModalContent = styled.Text`
@@ -50,6 +51,7 @@ export const OrderModalBtn = styled.TouchableOpacity`
   border-radius: ${fontPercentage(12)}px;
   background: #ffca42;
   margin-top: ${heightPercentage(23)}px;
+  z-index: 99;
 `;
 
 export const BtnText = styled.Text`

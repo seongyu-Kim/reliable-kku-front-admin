@@ -82,65 +82,6 @@ const PlusMenuModal: React.FC<{
     setImgModalVisible(false);
   };
 
-  // const handleImageSelection = () => {
-  //   console.log(menuImageUrl);
-  //   if (selectedOption === 1) {
-  //     launchCamera({mediaType: 'photo'}, response => {
-  //       if (!response.didCancel && response.uri) {
-  //         setFile(response);
-  //         console.log(response);
-  //         setMenuImgUrl(response.uri);
-  //       }
-  //       closeModal();
-  //     });
-  //   } else if (selectedOption === 2) {
-  //     launchImageLibrary({mediaType: 'photo'}, response => {
-  //       if (!response.didCancel && response.uri) {
-  //         setFile(response);
-  //         console.log(response);
-  //         setMenuImgUrl(response.uri);
-  //       }
-  //       closeModal();
-  //     });
-  //   }
-  // };
-
-  // const handleImageSelection = () => {
-  //   console.log(menuImageUrl);
-  //   if (selectedOption === 1) {
-  //     launchCamera({mediaType: 'photo'}, response => {
-  //       console.log('response', response);
-  //       if (response.didCancel) {
-  //         console.log('User cancelled camera');
-  //       } else if (response.error) {
-  //         console.log('Camera Error: ', response.error);
-  //       } else {
-  //         let imageUri = response.uri || response.assets?.[0]?.uri;
-  //         setMenuImgUrl(imageUri);
-  //         setFile(response);
-  //         console.log('!!!!@213123123123123', imageUri);
-  //       }
-  //       closeModal();
-  //       setPlusMenuModal(false);
-  //     });
-  //   } else if (selectedOption === 2) {
-  //     launchImageLibrary({mediaType: 'photo'}, response => {
-  //       if (response.didCancel) {
-  //         console.log('User cancelled camera');
-  //       } else if (response.error) {
-  //         console.log('Camera Error: ', response.error);
-  //       } else {
-  //         let imageUri = response.uri || response.assets?.[0]?.uri;
-  //         setMenuImgUrl(imageUri);
-  //         setFile(response);
-  //         console.log(imageUri);
-  //       }
-  //       closeModal();
-  //       setPlusMenuModal(false);
-  //     });
-  //   }
-  // };
-
   const handleCameraPress = () => {
     launchCamera({mediaType: 'photo'}, response => {
       console.log('response', response);

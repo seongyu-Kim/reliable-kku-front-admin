@@ -15,7 +15,7 @@ const OrderListLayout: React.FC<{
 }> = ({isSideMenuVisible, selectedTopMenu}) => {
   //
   const [orders, setOrders] = useState<Order[]>([]);
-  const [isClicked, setIsClicked] = useState(false);
+  // const [isClicked, setIsClicked] = useState(false);
 
   let renderItemComponent: any;
   let orderStatus: string = '';
@@ -23,15 +23,12 @@ const OrderListLayout: React.FC<{
   if (selectedTopMenu === '대기') {
     renderItemComponent = WaitingOrderItem;
     orderStatus = 'WAIT';
-    // setOrderStatus('WAIT');
   } else if (selectedTopMenu === '접수') {
     renderItemComponent = ReceiptOrderItem;
     orderStatus = 'COOKING';
-    // setOrderStatus('COOKING');
   } else if (selectedTopMenu === '완료') {
     renderItemComponent = CompleteOrderItem;
     orderStatus = 'FINISH';
-    // setOrderStatus('FINISH');
   }
 
   interface Order {
@@ -114,22 +111,50 @@ const OrderListLayout: React.FC<{
   }, []);
 
   // 주문;
+  // useEffect(() => {
+  //   const fetchOrders = async () => {
+  //     await BASE_API.get(
+  //       `https://dev.deunku.com/api/v1/admin/orders?orderStatus=${orderStatus}`,
+  //     )
+  //       .then(response => {
+  //         setOrders(response.data);
+  //         console.log(response.data);
+  //         console.log(
+  //           '@@@@@@ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ@@',
+  //         );
+  //       })
+  //       .catch(error => {
+  //         console.error('Error fetching orders(orderListLayout):', error);
+  //       });
+  //   };
+  //
+  //   fetchOrders();
+  // }, [orderStatus]);
+
+  const fetchOrders = async (status?: string) => {
+    try {
+      const response = await BASE_API.get(
+        `https://dev.deunku.com/api/v1/admin/orders?orderStatus=${status}`,
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      throw error;
+    }
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      await BASE_API.get(
-        `https://dev.deunku.com/api/v1/admin/orders?orderStatus=${orderStatus}`,
-      )
-        .then(response => {
-          setOrders(response.data);
-          console.log(response.data);
-          console.log('@@@@@@@@');
-        })
-        .catch(error => {
-          console.error('Error fetching orders(orderListLayout):', error);
-        });
+    const fetchData = async () => {
+      try {
+        const data = await fetchOrders(orderStatus);
+        setOrders(data);
+        console.log(data);
+      } catch (error) {
+        // 처리할 에러 로직 추가
+      }
     };
 
-    fetchOrders();
+    fetchData();
   }, [orderStatus]);
 
   const totalBunCount = orders.reduce((acc, order) => {
@@ -149,8 +174,8 @@ const OrderListLayout: React.FC<{
             return (
               <RenderItemComponent
                 {...item}
-                isClicked={isClicked}
-                setIsClicked={setIsClicked}
+                setOrders={setOrders}
+                fetchOrders={fetchOrders}
               />
             );
           }}
