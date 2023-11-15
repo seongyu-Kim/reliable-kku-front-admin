@@ -15,7 +15,7 @@ const OrderListLayout: React.FC<{
 }> = ({isSideMenuVisible, selectedTopMenu}) => {
   //
   const [orders, setOrders] = useState<Order[]>([]);
-  // const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   let renderItemComponent: any;
   let orderStatus: string = '';
@@ -151,18 +151,38 @@ const OrderListLayout: React.FC<{
         console.log(data);
       } catch (error) {
         // 처리할 에러 로직 추가
+        console.error('Error fetching Data:', error);
       }
     };
 
     fetchData();
   }, [orderStatus]);
 
-  const totalBunCount = orders.reduce((acc, order) => {
-    const bunCount = order.menuResponse.reduce((menuAcc, menu) => {
-      return menuAcc + menu.count;
+  // const totalBunCount = orders.reduce((acc, order) => {
+  //   const bunCount = order.menuResponse.reduce((menuAcc, menu) => {
+  //     return menuAcc + menu.count;
+  //   }, 0);
+  //   return acc + bunCount;
+  // }, 0);
+
+  let totalBunCount;
+
+  if (Array.isArray(orders)) {
+    // orders가 배열인 경우 처리
+    totalBunCount = orders.reduce((acc, order) => {
+      const bunCount = order.menuResponse.reduce((menuAcc, menu) => {
+        return menuAcc + menu.count;
+      }, 0);
+      return acc + bunCount;
     }, 0);
-    return acc + bunCount;
-  }, 0);
+  } else if (typeof orders === 'object' && orders !== null) {
+    // orders가 객체인 경우 처리
+    // 예: orders.menuResponse 등을 이용하여 적절한 속성에 접근하여 처리
+    totalBunCount = 0; // 적절한 처리를 수행해야 함
+  } else {
+    // orders가 배열도 객체도 아닌 경우
+    totalBunCount = 0; // 적절한 처리를 수행해야 함
+  }
 
   return isSideMenuVisible ? null : (
     <>
@@ -176,10 +196,13 @@ const OrderListLayout: React.FC<{
                 {...item}
                 setOrders={setOrders}
                 fetchOrders={fetchOrders}
+                isClicked={isClicked}
+                setIsClicked={setIsClicked}
               />
             );
           }}
           keyExtractor={item => `order${item.orderId.toString()}`}
+          // keyExtractor={`order${orderStatus.toString()}`}
           numColumns={4}
           showsVerticalScrollIndicator={true}
         />

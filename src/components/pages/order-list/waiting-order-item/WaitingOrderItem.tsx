@@ -1,4 +1,4 @@
-import React, {SetStateAction, useEffect, useState} from 'react';
+import React, {SetStateAction, useState} from 'react';
 import * as styles from './WaitingOrderItem.styles';
 import WaitingOrderModal from '../waiting-order-modal/WaitingOrderModal';
 import WaitingCancelModal1 from '../waiting-order-modal/WaitingCancelModal1';
@@ -11,9 +11,9 @@ const WaitingOrderItem: React.FC<{
   item: any;
   setOrders: any;
   fetchOrders: any;
-  // isClicked: boolean;
-  // setIsClicked: React.Dispatch<SetStateAction<boolean>>;
-}> = ({item, setOrders, fetchOrders}) => {
+  isClicked: boolean;
+  setIsClicked: React.Dispatch<SetStateAction<boolean>>;
+}> = ({item, setOrders, fetchOrders, isClicked, setIsClicked}) => {
   //주문접수모달
   const [modalVisible, setModalVisible] = useState(false);
   //
@@ -49,44 +49,36 @@ const WaitingOrderItem: React.FC<{
 
       console.log(response);
       setModalVisible(false);
+      setIsClicked(!isClicked);
     } catch (error) {
       console.error('예상시간 접수 실패:', error);
     }
   };
 
   //취소
-  const handleCancelPress = async () => {
-    try {
-      const response = await BASE_API.delete(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
-      );
-
-      console.log(response);
-
-      setCancelModalVisible1(false);
+  const handleCancelPress = () => {
+    setCancelModalVisible1(false);
+    BASE_API.delete(
+      `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+    ).then(async res => {
+      console.log('res>>>>>>>>>>>>>', res);
       setCancelModalVisible2(true);
-      const fetchedOrders = await fetchOrders('WAIT');
-      setOrders(fetchedOrders);
-    } catch (error) {
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-      console.error('접수 취소 실패:', error);
-    }
+    });
+
+    // } catch (error) {
+    //   console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    //   console.error('접수 취소 실패:', error);
+    // }
   };
 
-  //환불
-  const handleRefundPress = async () => {
-    try {
-      const response = await BASE_API.delete(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
-      );
-
-      console.log(response);
-      setRefundModalVisible1(false);
-      setRefundModalVisible2(true);
-    } catch (error) {
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-      console.error('환불 실패:', error);
-    }
+  const handleRefundPress = () => {
+    setRefundModalVisible1(false);
+    BASE_API.delete(
+      `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+    ).then(async res => {
+      console.log('res', res);
+      setCancelModalVisible2(true);
+    });
   };
 
   const handleCloseModal = () => {
@@ -95,6 +87,9 @@ const WaitingOrderItem: React.FC<{
     setCancelModalVisible2(false);
     setRefundModalVisible1(false);
     setRefundModalVisible2(false);
+
+    const fetchedOrders = fetchOrders('WAIT');
+    setOrders(fetchedOrders);
   };
 
   const formatPhoneNumber = (phoneNumber: string) => {
