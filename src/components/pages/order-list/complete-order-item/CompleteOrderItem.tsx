@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import * as styles from './CompleteOrderItem.styles';
 import CompleteOrderModal from '../complete-order-modal/CompleteOrderModal';
 import CompleteRestoreModal from '../complete-order-modal/CompleteRestoreModal';
-import axios from 'axios';
 import {BASE_API} from '../../../../api/CommonApi';
 
 const CompleteOrderItem: React.FC<{
   item: any;
-}> = ({item}) => {
+  isClicked: any;
+  setIsClicked: any;
+}> = ({item, isClicked, setIsClicked}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [restoreModalVisible, setRestoreModalVisible] = useState(false);
   // const [orders, setOrders] = useState([]);
@@ -42,18 +43,15 @@ const CompleteOrderItem: React.FC<{
   let orderId = item.orderId;
 
   //주문서 복구
-  const handleRestorePress = async () => {
-    try {
-      const response = await BASE_API.patch(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/recovery`,
-      );
 
-      console.log(response);
-      setRestoreModalVisible(false);
-    } catch (error) {
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-      console.error('복구 실패:', error);
-    }
+  const handleRestorePress = () => {
+    setRestoreModalVisible(false);
+    BASE_API.patch(
+      `https://dev.deunku.com/api/v1/admin/orders/${orderId}/recovery`,
+    ).then(async res => {
+      console.log('res', res);
+      setIsClicked(!isClicked);
+    });
   };
 
   return (

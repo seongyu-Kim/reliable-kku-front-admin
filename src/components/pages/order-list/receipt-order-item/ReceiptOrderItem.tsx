@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {SetStateAction, useState} from 'react';
 import * as styles from './ReceiptOrderItem.styles';
 import ReceiptOrderModal from '../receipt-order-modal/ReceiptOrderModal';
 import ReceiptCancelModal from '../receipt-order-modal/ReceiptCancelModal';
@@ -9,7 +9,11 @@ import {BASE_API} from '../../../../api/CommonApi';
 
 const ReceiptOrderItem: React.FC<{
   item: any;
-}> = ({item}) => {
+  setOrders: any;
+  fetchOrders: any;
+  isClicked: boolean;
+  setIsClicked: React.Dispatch<SetStateAction<boolean>>;
+}> = ({item, setOrders, fetchOrders, isClicked, setIsClicked}) => {
   const [modalVisible, setModalVisible] = useState(false);
   //
   const [cancelModalVisible, setCancelModalVisible] = useState(false);
@@ -21,12 +25,15 @@ const ReceiptOrderItem: React.FC<{
     setModalVisible(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = async () => {
     setModalVisible(false);
     setCancelModalVisible(false);
     setRefundModalVisible(false);
     setNotReceivedModalVisible(false);
     setPickupModalVisible(false);
+
+    const fetchedOrders = await fetchOrders('COOKING');
+    setOrders(fetchedOrders);
   };
 
   //
@@ -47,75 +54,61 @@ const ReceiptOrderItem: React.FC<{
 
   let orderId = item.orderId;
 
-  //픽업요청
-  const handlePickupModal = async () => {
-    try {
-      const response = await BASE_API.patch(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/pick-up`,
-      );
-
-      console.log(response);
-      setModalVisible(false);
+  // 픽업요청
+  const handlePickupModal = () => {
+    setModalVisible(false);
+    BASE_API.patch(
+      `https://dev.deunku.com/api/v1/admin/orders/${orderId}/pick-up`,
+    ).then(async res => {
+      console.log('res', res);
       setPickupModalVisible(true);
-    } catch (error) {
-      console.error('픽업요청 실패:', error);
-    }
+    });
   };
 
   //완료
-  const handleCompletePress = async () => {
-    try {
-      const response = await BASE_API.patch(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/finish`,
-      );
-
-      console.log(response);
-      setModalVisible(false);
-      console.log('완료 성공');
-    } catch (error) {
-      console.error('완료 실패:', error);
-    }
+  const handleCompletePress = () => {
+    setModalVisible(false);
+    BASE_API.patch(
+      `https://dev.deunku.com/api/v1/admin/orders/${orderId}/finish`,
+    ).then(async res => {
+      console.log('res', res);
+      setIsClicked(!isClicked);
+    });
   };
 
   //미수령
-  const handleNotTakePress = async () => {
-    try {
-      const response = await BASE_API.patch(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/not-take`,
-      );
-
-      console.log('미수령처리 완료');
-      console.log(response);
-      setNotReceivedModalVisible(false);
-    } catch (error) {
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-      console.error('미수령 처리 실패:', error);
-    }
+  const handleNotTakePress = () => {
+    setNotReceivedModalVisible(false);
+    BASE_API.patch(
+      `https://dev.deunku.com/api/v1/admin/orders/${orderId}/not-take`,
+    ).then(async res => {
+      console.log('res', res);
+      setIsClicked(!isClicked);
+    });
   };
+
   //접수취소
-  const handleCancelPress = async () => {
-    await BASE_API.delete(
+  const handleCancelPress = () => {
+    setCancelModalVisible(false);
+    BASE_API.delete(
       `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
-    ).then(() => {
-      setCancelModalVisible(false);
+    ).then(async res => {
+      console.log('res', res);
+      setIsClicked(!isClicked);
     });
   };
 
   //환불
-  const handleRefundPress = async () => {
-    try {
-      const response = await BASE_API.delete(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
-      );
-
-      console.log(response);
-      setRefundModalVisible(false);
-    } catch (error) {
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-      console.error('환불 실패:', error);
-    }
+  const handleRefundPress = () => {
+    setRefundModalVisible(false);
+    BASE_API.delete(
+      `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+    ).then(async res => {
+      console.log('res', res);
+      setIsClicked(!isClicked);
+    });
   };
-  //
+
   const formatPhoneNumber = (phoneNumber: string) => {
     const formattedNumber = phoneNumber.replace(/-/g, '');
     return formattedNumber.substr(3); // "010"을 제외한 나머지 부분 리턴

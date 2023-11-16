@@ -110,28 +110,7 @@ const OrderListLayout: React.FC<{
       es.close();
     };
   }, []);
-
-  // 주문;
-  // useEffect(() => {
-  //   const fetchOrders = async () => {
-  //     await BASE_API.get(
-  //       `https://dev.deunku.com/api/v1/admin/orders?orderStatus=${orderStatus}`,
-  //     )
-  //       .then(response => {
-  //         setOrders(response.data);
-  //         console.log(response.data);
-  //         console.log(
-  //           '@@@@@@ㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ@@',
-  //         );
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching orders(orderListLayout):', error);
-  //       });
-  //   };
   //
-  //   fetchOrders();
-  // }, [orderStatus]);
-
   const fetchOrders = async (status?: string) => {
     try {
       const response = await BASE_API.get(
@@ -143,7 +122,7 @@ const OrderListLayout: React.FC<{
       throw error;
     }
   };
-
+  //
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -159,17 +138,9 @@ const OrderListLayout: React.FC<{
     fetchData();
   }, [orderStatus, isClicked]);
 
-  // const totalBunCount = orders.reduce((acc, order) => {
-  //   const bunCount = order.menuResponse.reduce((menuAcc, menu) => {
-  //     return menuAcc + menu.count;
-  //   }, 0);
-  //   return acc + bunCount;
-  // }, 0);
-
   let totalBunCount;
 
   if (Array.isArray(orders)) {
-    // orders가 배열인 경우 처리
     totalBunCount = orders.reduce((acc, order) => {
       const bunCount = order.menuResponse.reduce((menuAcc, menu) => {
         return menuAcc + menu.count;
@@ -177,12 +148,9 @@ const OrderListLayout: React.FC<{
       return acc + bunCount;
     }, 0);
   } else if (typeof orders === 'object' && orders !== null) {
-    // orders가 객체인 경우 처리
-    // 예: orders.menuResponse 등을 이용하여 적절한 속성에 접근하여 처리
-    totalBunCount = 0; // 적절한 처리를 수행해야 함
+    totalBunCount = 0;
   } else {
-    // orders가 배열도 객체도 아닌 경우
-    totalBunCount = 0; // 적절한 처리를 수행해야 함
+    totalBunCount = 0;
   }
 
   return isSideMenuVisible ? null : (
