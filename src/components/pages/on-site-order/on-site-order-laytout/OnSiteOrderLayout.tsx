@@ -150,13 +150,17 @@ const OnSiteOrderLayout: React.FC<{
       <styles.HrLine2 />
       <styles.ProductPrice>{item.pricePerOne}원</styles.ProductPrice>
 
-      <styles.MinusButton onPress={() => decreaseQuantity(item.menuId)}>
+      <styles.MinusButton
+        hitSlop={{bottom: 20, top: 20, left: 20, right: 20}}
+        onPress={() => decreaseQuantity(item.menuId)}>
         <MinusButton
           height={heightPercentage(20)}
           width={widthPercentage(20)}
         />
       </styles.MinusButton>
-      <styles.PlusButton onPress={() => increaseQuantity(item.menuId)}>
+      <styles.PlusButton
+        hitSlop={{bottom: 20, top: 20, left: 20, right: 20}}
+        onPress={() => increaseQuantity(item.menuId)}>
         <PlusButton height={heightPercentage(20)} width={widthPercentage(20)} />
       </styles.PlusButton>
       <styles.ProductCount>{quantity[item.menuId] || 0}</styles.ProductCount>

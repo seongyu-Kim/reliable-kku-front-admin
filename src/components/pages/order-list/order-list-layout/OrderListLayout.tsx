@@ -176,9 +176,9 @@ const OrderListLayout: React.FC<{
           showsVerticalScrollIndicator={true}
         />
 
-        <styles.TotalOrderCnt>
+        <styles.TotalItemCnt>
           접수 총 주문 수량: {totalBunCount}개
-        </styles.TotalOrderCnt>
+        </styles.TotalItemCnt>
       </styles.OrderView>
       <SiteOrderBtn isClicked={isClicked} setIsClicked={setIsClicked} />
     </>
