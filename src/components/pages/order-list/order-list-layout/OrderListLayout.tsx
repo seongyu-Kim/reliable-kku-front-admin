@@ -19,17 +19,20 @@ const OrderListLayout: React.FC<{
   const [orders, setOrders] = useState<Order[]>([]);
 
   let renderItemComponent: any;
-  let orderStatus: string = '';
+  // let orderStatus: string = '';
+  const [orderStatus, setOrderStatus] = useState<'WAIT' | 'COOKING' | 'FINISH'>(
+    'WAIT',
+  );
 
   if (selectedTopMenu === '대기') {
     renderItemComponent = WaitingOrderItem;
-    orderStatus = 'WAIT';
+    setOrderStatus('WAIT');
   } else if (selectedTopMenu === '접수') {
     renderItemComponent = ReceiptOrderItem;
-    orderStatus = 'COOKING';
+    setOrderStatus('COOKING');
   } else if (selectedTopMenu === '완료') {
     renderItemComponent = CompleteOrderItem;
-    orderStatus = 'FINISH';
+    setOrderStatus('FINISH');
   }
 
   interface Order {
@@ -67,6 +70,18 @@ const OrderListLayout: React.FC<{
     );
   };
 
+  const fetchOrders = async (status?: string) => {
+    try {
+      const response = await BASE_API.get(
+        `https://dev.deunku.com/api/v1/admin/orders?orderStatus=${status}`,
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      throw error;
+    }
+  };
+
   //SSE
   useEffect(() => {
     const es = new EventSource(
@@ -79,23 +94,20 @@ const OrderListLayout: React.FC<{
 
     const listener: EventSourceListener = event => {
       if (event.type === 'open') {
-        console.log('open!!!!!!!!!!!!!!!!!!!!!!!');
+        fetchOrders().then(res => {
+          setOrders(res);
+        });
       } else if (event.type === 'message') {
-        console.log('event.data>>>>>>>>', event.data);
         let data: Order;
-
         if (event.data != null) {
           data = JSON.parse(event.data);
           console.log('data!!!!!!!!!!!!!!!!!!!!!!!!!!!!:', data);
           if (orderStatus === 'WAIT') {
             setOrders([data, ...orders]);
-            playSound();
-          } else {
-            //asd
           }
+          playSound();
         }
       } else if (event.type === 'error') {
-        console.log('SSE connection error');
       } else if (event.type === 'exception') {
         console.log('SSE connection exception');
       }
@@ -106,22 +118,15 @@ const OrderListLayout: React.FC<{
     es.addEventListener('error', listener);
 
     return () => {
+      fetchOrders().then(res => {
+        setOrders(res);
+      });
       es.removeAllEventListeners();
       es.close();
     };
-  }, []);
+  }, [orderStatus]);
   //
-  const fetchOrders = async (status?: string) => {
-    try {
-      const response = await BASE_API.get(
-        `https://dev.deunku.com/api/v1/admin/orders?orderStatus=${status}`,
-      );
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching orders:', error);
-      throw error;
-    }
-  };
+
   //
   useEffect(() => {
     const fetchData = async () => {
