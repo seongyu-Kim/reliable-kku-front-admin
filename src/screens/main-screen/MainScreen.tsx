@@ -90,6 +90,7 @@ const MainScreen: React.FC = () => {
     const listener: EventSourceListener = event => {
       if (event.type === 'open') {
         console.log('open!!!!!!!!!!!!!!!!!!!!!');
+        fetchOrders('WAIT').then(data => setOrders(data));
       } else if (event.type === 'message') {
         let data: Order;
         if (event.data != null) {
