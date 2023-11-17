@@ -6,12 +6,11 @@ import {BASE_API} from '../../../../api/CommonApi';
 
 const CompleteOrderItem: React.FC<{
   item: any;
-  isClicked: any;
-  setIsClicked: any;
-}> = ({item, isClicked, setIsClicked}) => {
+  setOrders: any;
+  fetchOrders: any;
+}> = ({item, setOrders, fetchOrders}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [restoreModalVisible, setRestoreModalVisible] = useState(false);
-  // const [orders, setOrders] = useState([]);
 
   //
 
@@ -19,7 +18,7 @@ const CompleteOrderItem: React.FC<{
     setModalVisible(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = async () => {
     setModalVisible(false);
     setRestoreModalVisible(false);
   };
@@ -42,16 +41,18 @@ const CompleteOrderItem: React.FC<{
 
   let orderId = item.orderId;
 
-  //주문서 복구
-
-  const handleRestorePress = () => {
-    setRestoreModalVisible(false);
-    BASE_API.patch(
-      `https://dev.deunku.com/api/v1/admin/orders/${orderId}/recovery`,
-    ).then(async res => {
-      console.log('res', res);
-      setIsClicked(!isClicked);
-    });
+  const handleRestorePress = async () => {
+    try {
+      const response = await BASE_API.patch(
+        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/recovery`,
+      );
+      console.log('response:', response);
+      const fetchedOrders = await fetchOrders('FINISH');
+      setOrders(fetchedOrders);
+      setRestoreModalVisible(false);
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    }
   };
 
   return (

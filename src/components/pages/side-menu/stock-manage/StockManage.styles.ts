@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
-import {fontPercentage, heightPercentage, widthPercentage} from "../../../common/ResponsiveSize";
+import {
+  fontPercentage,
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 export const StockManageBox = styled.View`
   position: absolute;
@@ -40,7 +44,7 @@ export const StockBtn = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   width: ${widthPercentage(200)}px;
-  height: ${heightPercentage(54)}px;
+  height: ${heightPercentage(60)}px;
   border-radius: ${fontPercentage(12)}px;
   background: ${props => (props.disabled ? '#E0E0E0' : '#FFCA42')};
   padding: ${heightPercentage(16)}px ${widthPercentage(24)}px;

@@ -10,9 +10,19 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MainScreen from './screens/main-screen/MainScreen';
+import {useEffect} from 'react';
+import Immersive from 'react-native-immersive';
+import {Platform} from 'react-native';
+
 const Stack = createNativeStackNavigator();
 
 function App() {
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      Immersive.on();
+    }
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">

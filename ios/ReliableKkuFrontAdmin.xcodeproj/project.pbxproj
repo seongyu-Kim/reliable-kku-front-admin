@@ -493,6 +493,7 @@
 				DEVELOPMENT_TEAM = GDR7G9DSV8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ReliableKkuFrontAdmin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "든붕이(관리자)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -526,6 +527,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GDR7G9DSV8;
 				INFOPLIST_FILE = ReliableKkuFrontAdmin/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "든붕이(관리자)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -638,6 +640,8 @@
 					"-ld_classic",
 					"-Wl",
 					"-ld_classic",
+					"-Wl",
+					"-ld_classic",
 					"-Wl -ld_classic ",
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
@@ -712,6 +716,8 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
+					"-Wl",
+					"-ld_classic",
 					"-Wl",
 					"-ld_classic",
 					"-Wl",

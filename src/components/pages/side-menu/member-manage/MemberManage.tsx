@@ -5,6 +5,7 @@ import Margin from '../../../common/margin/Margin';
 import SearchIcon from '../../../../assets/images/searchImg.svg';
 import {BASE_API} from '../../../../api/CommonApi';
 import {
+  fontPercentage,
   heightPercentage,
   widthPercentage,
 } from '../../../common/ResponsiveSize';
@@ -98,6 +99,7 @@ const MemberManage: React.FC = () => {
           <styles.MemberSearchText>고객검색</styles.MemberSearchText>
           <styles.MemberSearch
             placeholder="Search"
+            style={{fontSize: fontPercentage(25), paddingTop: 0}}
             value={searchKeyword}
             onChangeText={handleSearch}
           />

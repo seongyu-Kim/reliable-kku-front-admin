@@ -1,147 +1,55 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList} from 'react-native';
+import React, {useEffect} from 'react';
+import {ScrollView} from 'react-native';
 import * as styles from './OrderListLayout.styles';
 import WaitingOrderItem from '../waiting-order-item/WaitingOrderItem';
 import SiteOrderBtn from '../../on-site-order/site-order-btn/SiteOrderBtn';
 import ReceiptOrderItem from '../receipt-order-item/ReceiptOrderItem';
 import CompleteOrderItem from '../complete-order-item/CompleteOrderItem';
-import {BASE_API} from '../../../../api/CommonApi';
-import EventSource, {EventSourceListener} from 'react-native-sse';
-import Sound from 'react-native-sound';
+
+interface MenuResponseItem {
+  name: string;
+  count: number;
+}
+
+interface Order {
+  todayOrderCount: Number;
+  phoneNumber: string;
+  orderTime: string;
+  menuResponse: MenuResponseItem[];
+  isOfflineOrder: boolean;
+  timeTakenMinutes: number;
+  allCount: number;
+  orderId: number;
+}
 
 const OrderListLayout: React.FC<{
   isSideMenuVisible: boolean;
-  selectedTopMenu: string;
   isClicked: boolean;
   setIsClicked: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({isSideMenuVisible, selectedTopMenu, isClicked, setIsClicked}) => {
-  //
-  const [orders, setOrders] = useState<Order[]>([]);
-
-  let renderItemComponent: any;
-  // let orderStatus: string = '';
-  const [orderStatus, setOrderStatus] = useState<'WAIT' | 'COOKING' | 'FINISH'>(
-    'WAIT',
-  );
-
-  if (selectedTopMenu === '대기') {
-    renderItemComponent = WaitingOrderItem;
-    setOrderStatus('WAIT');
-  } else if (selectedTopMenu === '접수') {
-    renderItemComponent = ReceiptOrderItem;
-    setOrderStatus('COOKING');
-  } else if (selectedTopMenu === '완료') {
-    renderItemComponent = CompleteOrderItem;
-    setOrderStatus('FINISH');
-  }
-
-  interface Order {
-    todayOrderCount: Number;
-    phoneNumber: string;
-    orderTime: string;
-    menuResponse: MenuResponseItem[];
-    isOfflineOrder: boolean;
-    timeTakenMinutes: number;
-    allCount: number;
-    orderId: number;
-  }
-
-  interface MenuResponseItem {
-    name: string;
-    count: number;
-  }
-
-  const playSound = () => {
-    const sound = new Sound(
-      require('../../../../assets/sound/alram.mp3'),
-      error => {
-        if (error) {
-          console.error('Failed to load the sound', error);
-          return;
-        }
-        sound.play(success => {
-          if (success) {
-            console.log('Sound played successfully');
-          } else {
-            console.error('Failed to play the sound');
-          }
-        });
-      },
-    );
-  };
-
-  const fetchOrders = async (status?: string) => {
-    try {
-      const response = await BASE_API.get(
-        `https://dev.deunku.com/api/v1/admin/orders?orderStatus=${status}`,
-      );
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching orders:', error);
-      throw error;
+  orderStatus: any;
+  setOrderStatus: any;
+  orders: Order[];
+  setOrders: any;
+  fetchOrders: any;
+}> = ({
+  isSideMenuVisible,
+  isClicked,
+  setIsClicked,
+  orderStatus,
+  setOrderStatus,
+  orders,
+  setOrders,
+  fetchOrders,
+}) => {
+  useEffect(() => {
+    if (orderStatus === 'WAIT') {
+      setOrderStatus('WAIT');
+    } else if (orderStatus === 'COOKING') {
+      setOrderStatus('COOKING');
+    } else if (orderStatus === 'FINISH') {
+      setOrderStatus('FINISH');
     }
-  };
-
-  //SSE
-  useEffect(() => {
-    const es = new EventSource(
-      'https://dev.deunku.com/api/v1/admin/order/sse/connect',
-      {
-        timeout: 0,
-        pollingInterval: 1000,
-      },
-    );
-
-    const listener: EventSourceListener = event => {
-      if (event.type === 'open') {
-        fetchOrders().then(res => {
-          setOrders(res);
-        });
-      } else if (event.type === 'message') {
-        let data: Order;
-        if (event.data != null) {
-          data = JSON.parse(event.data);
-          console.log('data!!!!!!!!!!!!!!!!!!!!!!!!!!!!:', data);
-          if (orderStatus === 'WAIT') {
-            setOrders([data, ...orders]);
-          }
-          playSound();
-        }
-      } else if (event.type === 'error') {
-      } else if (event.type === 'exception') {
-        console.log('SSE connection exception');
-      }
-    };
-
-    es.addEventListener('open', listener);
-    es.addEventListener('message', listener);
-    es.addEventListener('error', listener);
-
-    return () => {
-      fetchOrders().then(res => {
-        setOrders(res);
-      });
-      es.removeAllEventListeners();
-      es.close();
-    };
   }, [orderStatus]);
-  //
-
-  //
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchOrders(orderStatus);
-        setOrders(data);
-        console.log(data);
-      } catch (error) {
-        // 처리할 에러 로직 추가
-        console.error('Error fetching Data:', error);
-      }
-    };
-
-    fetchData();
-  }, [orderStatus, isClicked]);
 
   let totalBunCount;
 
@@ -158,36 +66,72 @@ const OrderListLayout: React.FC<{
     totalBunCount = 0;
   }
 
-  return isSideMenuVisible ? null : (
-    <>
-      <styles.OrderView>
-        <FlatList
-          data={orders}
-          renderItem={item => {
-            const RenderItemComponent = renderItemComponent;
-            return (
-              <RenderItemComponent
-                {...item}
+  if (isSideMenuVisible) {
+    return null;
+  } else {
+    let orderViews = [];
+    if (orderStatus === 'WAIT') {
+      for (let i = 0; i < orders.length; i += 4) {
+        const orderGroup = orders.slice(i, i + 4);
+        orderViews.push(
+          <styles.RowContainer key={`orderGroup-${i}`}>
+            {orderGroup.map(item => (
+              <WaitingOrderItem
+                key={`waiting-order-${item.orderId}`}
+                item={item}
                 setOrders={setOrders}
                 fetchOrders={fetchOrders}
-                isClicked={isClicked}
-                setIsClicked={setIsClicked}
               />
-            );
-          }}
-          keyExtractor={item => `order${item.orderId.toString()}`}
-          // keyExtractor={`order${orderStatus.toString()}`}
-          numColumns={4}
-          showsVerticalScrollIndicator={true}
-        />
+            ))}
+          </styles.RowContainer>,
+        );
+      }
+    } else if (orderStatus === 'COOKING') {
+      for (let i = 0; i < orders.length; i += 4) {
+        const orderGroup = orders.slice(i, i + 4);
+        orderViews.push(
+          <styles.RowContainer key={`orderGroup-${i}`}>
+            {orderGroup.map(item => (
+              <ReceiptOrderItem
+                key={`receipt-order-${item.orderId}`}
+                item={item}
+                setOrders={setOrders}
+                fetchOrders={fetchOrders}
+              />
+            ))}
+          </styles.RowContainer>,
+        );
+      }
+    } else if (orderStatus === 'FINISH') {
+      for (let i = 0; i < orders.length; i += 4) {
+        const orderGroup = orders.slice(i, i + 4);
+        orderViews.push(
+          <styles.RowContainer key={`orderGroup-${i}`}>
+            {orderGroup.map(item => (
+              <CompleteOrderItem
+                key={`complete-order-${item.orderId}`}
+                item={item}
+                setOrders={setOrders}
+                fetchOrders={fetchOrders}
+              />
+            ))}
+          </styles.RowContainer>,
+        );
+      }
+    }
 
-        <styles.TotalItemCnt>
-          접수 총 주문 수량: {totalBunCount}개
-        </styles.TotalItemCnt>
-      </styles.OrderView>
-      <SiteOrderBtn isClicked={isClicked} setIsClicked={setIsClicked} />
-    </>
-  );
+    return (
+      <>
+        <styles.OrderView>
+          <ScrollView>{orderViews}</ScrollView>
+          <styles.TotalItemCnt>
+            접수 총 주문 수량: {totalBunCount}개
+          </styles.TotalItemCnt>
+        </styles.OrderView>
+        <SiteOrderBtn isClicked={isClicked} setIsClicked={setIsClicked} />
+      </>
+    );
+  }
 };
 
 export default OrderListLayout;

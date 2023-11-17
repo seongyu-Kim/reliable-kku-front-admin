@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
-import {fontPercentage, heightPercentage, widthPercentage,} from '../../../common/ResponsiveSize';
+import {
+  fontPercentage,
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 export const Order = styled.TouchableOpacity`
   width: ${widthPercentage(247)}px;
@@ -7,7 +11,7 @@ export const Order = styled.TouchableOpacity`
   flex-shrink: 0;
   border-radius: ${fontPercentage(12)}px;
   background: #fff;
-  margin: ${heightPercentage(7)}px ${widthPercentage(11)}px;
+  margin: ${heightPercentage(11)}px ${widthPercentage(8)}px;
 `;
 export const AppOrderTop = styled.View`
   position: absolute;

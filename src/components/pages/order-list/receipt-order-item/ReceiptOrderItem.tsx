@@ -11,9 +11,7 @@ const ReceiptOrderItem: React.FC<{
   item: any;
   setOrders: any;
   fetchOrders: any;
-  isClicked: boolean;
-  setIsClicked: React.Dispatch<SetStateAction<boolean>>;
-}> = ({item, setOrders, fetchOrders, isClicked, setIsClicked}) => {
+}> = ({item, setOrders, fetchOrders}) => {
   const [modalVisible, setModalVisible] = useState(false);
   //
   const [cancelModalVisible, setCancelModalVisible] = useState(false);
@@ -31,9 +29,6 @@ const ReceiptOrderItem: React.FC<{
     setRefundModalVisible(false);
     setNotReceivedModalVisible(false);
     setPickupModalVisible(false);
-
-    const fetchedOrders = await fetchOrders('COOKING');
-    setOrders(fetchedOrders);
   };
 
   //
@@ -54,59 +49,84 @@ const ReceiptOrderItem: React.FC<{
 
   let orderId = item.orderId;
 
-  // 픽업요청
-  const handlePickupModal = () => {
-    setModalVisible(false);
-    BASE_API.patch(
-      `https://dev.deunku.com/api/v1/admin/orders/${orderId}/pick-up`,
-    ).then(async res => {
-      console.log('res', res);
+  const handlePickupModal = async () => {
+    try {
+      setModalVisible(false);
+      const response = await BASE_API.patch(
+        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/pick-up`,
+      );
+      console.log('response:', response);
+      const fetchedOrders = await fetchOrders('COOKING');
+      setOrders(fetchedOrders);
       setPickupModalVisible(true);
-    });
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    }
   };
 
-  //완료
-  const handleCompletePress = () => {
-    setModalVisible(false);
-    BASE_API.patch(
-      `https://dev.deunku.com/api/v1/admin/orders/${orderId}/finish`,
-    ).then(async res => {
-      console.log('res', res);
-      setIsClicked(!isClicked);
-    });
+  const handleCompletePress = async () => {
+    try {
+      const response = await BASE_API.patch(
+        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/finish`,
+      );
+      console.log('response:', response);
+      const fetchedOrders = await fetchOrders('COOKING');
+      setOrders(fetchedOrders);
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    }
   };
 
-  //미수령
-  const handleNotTakePress = () => {
-    setNotReceivedModalVisible(false);
-    BASE_API.patch(
-      `https://dev.deunku.com/api/v1/admin/orders/${orderId}/not-take`,
-    ).then(async res => {
-      console.log('res', res);
-      setIsClicked(!isClicked);
-    });
+  const handleNotTakePress = async () => {
+    try {
+      const response = await BASE_API.patch(
+        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/not-take`,
+      );
+      console.log('response:', response);
+      const fetchedOrders = await fetchOrders('COOKING');
+      setOrders(fetchedOrders);
+      setNotReceivedModalVisible(false);
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    }
   };
 
   //접수취소
-  const handleCancelPress = () => {
-    setCancelModalVisible(false);
-    BASE_API.delete(
-      `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
-    ).then(async res => {
-      console.log('res', res);
-      setIsClicked(!isClicked);
-    });
+  // const handleCancelPress = () => {
+  //   setCancelModalVisible(false);
+  //   BASE_API.delete(
+  //     `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+  //   ).then(async res => {
+  //     console.log('res', res);
+  //     setIsClicked(!isClicked);
+  //   });
+  // };
+  const handleCancelPress = async () => {
+    try {
+      const response = await BASE_API.delete(
+        `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+      );
+      console.log('response:', response);
+      const fetchedOrders = await fetchOrders('COOKING');
+      setOrders(fetchedOrders);
+      setCancelModalVisible(false);
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    }
   };
 
-  //환불
-  const handleRefundPress = () => {
-    setRefundModalVisible(false);
-    BASE_API.delete(
-      `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
-    ).then(async res => {
-      console.log('res', res);
-      setIsClicked(!isClicked);
-    });
+  const handleRefundPress = async () => {
+    try {
+      const response = await BASE_API.delete(
+        `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+      );
+      console.log('response:', response);
+      const fetchedOrders = await fetchOrders('COOKING');
+      setOrders(fetchedOrders);
+      setRefundModalVisible(false);
+    } catch (error) {
+      console.error('Error deleting order:', error);
+    }
   };
 
   const formatPhoneNumber = (phoneNumber: string) => {

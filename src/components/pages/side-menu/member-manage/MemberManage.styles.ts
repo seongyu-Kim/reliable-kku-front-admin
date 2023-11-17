@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
-import {fontPercentage, heightPercentage, widthPercentage} from "../../../common/ResponsiveSize";
+import {
+  fontPercentage,
+  heightPercentage,
+  widthPercentage,
+} from '../../../common/ResponsiveSize';
 
 export const MemberManageBox = styled.View`
   position: absolute;

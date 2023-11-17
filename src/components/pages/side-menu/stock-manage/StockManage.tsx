@@ -48,7 +48,7 @@ const StockManage: React.FC = () => {
   //         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@');
   //       })
   //       .catch(error => {
-  //         console.error('Error fetching es:', error);
+  //         console.error('Error fetching es:', error);ㅠ
   //       });
   //   };
   //   fetchMenus();

@@ -19,3 +19,7 @@ export const TotalItemCnt = styled.Text`
   top: ${heightPercentage(480)}px;
   right: ${widthPercentage(5)}px;
 `;
+
+export const RowContainer = styled.View`
+  flex-direction: row;
+`;

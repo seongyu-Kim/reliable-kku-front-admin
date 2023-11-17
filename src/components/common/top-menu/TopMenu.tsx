@@ -1,4 +1,4 @@
-import React, {SetStateAction} from 'react';
+import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import * as styles from './TopMenu.styles';
 import Margin from '../margin/Margin';
@@ -14,17 +14,21 @@ import {heightPercentage, widthPercentage} from '../ResponsiveSize';
 const TopMenu: React.FC<{
   isSideMenuVisible: any;
   setIsSideMenuVisible: any;
-  selectedTopMenu: string;
-  setSelectedTopMenu: any;
+  // selectedTopMenu: string;
+  // setSelectedTopMenu: any;
   selectedSideMenu: string;
   setSelectedSideMenu: any;
-  isClicked: boolean;
-  setIsClicked: React.Dispatch<SetStateAction<boolean>>;
+  // isClicked: boolean;
+  // setIsClicked: React.Dispatch<SetStateAction<boolean>>;
+  setOrderStatus: any;
+  orderStatus: any;
 }> = ({
   isSideMenuVisible,
   setIsSideMenuVisible,
-  selectedTopMenu,
-  setSelectedTopMenu,
+  // selectedTopMenu,
+  // setSelectedTopMenu,
+  setOrderStatus,
+  orderStatus,
   selectedSideMenu,
   setSelectedSideMenu,
 }) => {
@@ -39,7 +43,7 @@ const TopMenu: React.FC<{
 
   //탑메뉴선택
   const handleTopMenuPress = (menu: string) => {
-    setSelectedTopMenu(menu);
+    setOrderStatus(menu);
     setIsSideMenuVisible(false);
   };
 
@@ -151,13 +155,13 @@ const TopMenu: React.FC<{
         <>
           <React.Fragment>
             <styles.TopMenuViewSm>
-              <TouchableOpacity onPress={() => handleTopMenuPress('대기')}>
+              <TouchableOpacity onPress={() => handleTopMenuPress('WAIT')}>
                 <styles.TopMenuTextSm>대기</styles.TopMenuTextSm>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleTopMenuPress('접수')}>
+              <TouchableOpacity onPress={() => handleTopMenuPress('COOKING')}>
                 <styles.TopMenuTextSm>접수</styles.TopMenuTextSm>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleTopMenuPress('완료')}>
+              <TouchableOpacity onPress={() => handleTopMenuPress('FINISH')}>
                 <styles.TopMenuTextSm>완료</styles.TopMenuTextSm>
               </TouchableOpacity>
             </styles.TopMenuViewSm>
@@ -167,25 +171,25 @@ const TopMenu: React.FC<{
       ) : (
         <React.Fragment>
           <styles.TopMenuView>
-            <TouchableOpacity onPress={() => handleTopMenuPress('대기')}>
-              <styles.TopMenuText selectedTopMenu={selectedTopMenu === '대기'}>
+            <TouchableOpacity onPress={() => handleTopMenuPress('WAIT')}>
+              <styles.TopMenuText orderStatus={orderStatus === 'WAIT'}>
                 대기
               </styles.TopMenuText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleTopMenuPress('접수')}>
-              <styles.TopMenuText selectedTopMenu={selectedTopMenu === '접수'}>
+            <TouchableOpacity onPress={() => handleTopMenuPress('COOKING')}>
+              <styles.TopMenuText orderStatus={orderStatus === 'COOKING'}>
                 접수
               </styles.TopMenuText>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleTopMenuPress('완료')}>
-              <styles.TopMenuText selectedTopMenu={selectedTopMenu === '완료'}>
+            <TouchableOpacity onPress={() => handleTopMenuPress('FINISH')}>
+              <styles.TopMenuText orderStatus={orderStatus === 'FINISH'}>
                 완료
               </styles.TopMenuText>
             </TouchableOpacity>
           </styles.TopMenuView>
-          {selectedTopMenu === '대기' && <styles.HrLine1 />}
-          {selectedTopMenu === '접수' && <styles.HrLine2 />}
-          {selectedTopMenu === '완료' && <styles.HrLine3 />}
+          {orderStatus === 'WAIT' && <styles.HrLine1 />}
+          {orderStatus === 'COOKING' && <styles.HrLine2 />}
+          {orderStatus === 'FINISH' && <styles.HrLine3 />}
         </React.Fragment>
       )}
     </>

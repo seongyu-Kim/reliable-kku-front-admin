@@ -11,7 +11,7 @@ export const Order = styled.TouchableOpacity`
   flex-shrink: 0;
   border-radius: ${fontPercentage(12)}px;
   background: #fff;
-  margin: ${heightPercentage(11)}px ${widthPercentage(7)}px;
+  margin: ${heightPercentage(7)}px ${widthPercentage(8)}px;
 `;
 export const AppOrderTop = styled.View`
   position: absolute;

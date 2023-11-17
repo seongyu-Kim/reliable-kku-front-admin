@@ -6,9 +6,9 @@ import {
 } from '../ResponsiveSize';
 import {Text, TextProps} from 'react-native';
 
-type SelectedTopMenuProps = {
+type OrderStatusProps = {
   children: string;
-  selectedTopMenu: boolean;
+  orderStatus: boolean;
 } & TextProps;
 
 type SelectedSideMenuProps = {
@@ -26,9 +26,9 @@ export const TopMenuViewSm = styled.View<{isSideMenu: boolean}>`
   justify-content: center;
 `;
 
-export const TopMenuText = styled.Text<SelectedTopMenuProps>`
+export const TopMenuText = styled.Text<OrderStatusProps>`
   color: ${props =>
-    props.selectedTopMenu ? 'rgba(0, 0, 0, 0.60)' : 'rgba(0, 0, 0, 0.30)'};
+    props.orderStatus ? 'rgba(0, 0, 0, 0.60)' : 'rgba(0, 0, 0, 0.30)'};
   font-size: ${fontPercentage(40)}px;
   font-weight: 700;
   margin: 0 ${widthPercentage(138.5)}px;
@@ -91,7 +91,7 @@ export const MenuImg = styled.TouchableOpacity`
 export const SideMenuView = styled.View`
   position: absolute;
   width: ${widthPercentage(196.75)}px;
-  height: ${heightPercentage(834)}px;
+  height: 100%;
   background: #fff;
   left: 0;
 `;
