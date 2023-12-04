@@ -43,6 +43,10 @@
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>앱에서 사진 라이브러리에 접근하려고 합니다.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
