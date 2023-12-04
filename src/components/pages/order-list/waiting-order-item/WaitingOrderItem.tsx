@@ -45,7 +45,7 @@ const WaitingOrderItem: React.FC<{
     try {
       // Delete the order
       const response = await BASE_API.post(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/minutes/${orderMinutes}`,
+        `https://prod.deunku.com/api/v1/admin/orders/${orderId}/minutes/${orderMinutes}`,
       );
       console.log('response:', response);
       const fetchedOrders = await fetchOrders('WAIT');
@@ -62,7 +62,7 @@ const WaitingOrderItem: React.FC<{
     try {
       // Delete the order
       const deleteResponse = await BASE_API.delete(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+        `https://prod.deunku.com/api/v1/admin/orders/${orderId}`,
       );
       console.log('Delete response:', deleteResponse);
       const fetchedOrders = await fetchOrders('WAIT');
@@ -78,7 +78,7 @@ const WaitingOrderItem: React.FC<{
     try {
       // Delete the order
       const response = await BASE_API.delete(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+        `https://prod.deunku.com/api/v1/admin/orders/${orderId}`,
       );
       console.log('response:', response);
       const fetchedOrders = await fetchOrders('WAIT');

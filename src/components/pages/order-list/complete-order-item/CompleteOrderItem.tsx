@@ -44,7 +44,7 @@ const CompleteOrderItem: React.FC<{
   const handleRestorePress = async () => {
     try {
       const response = await BASE_API.patch(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/recovery`,
+        `https://prod.deunku.com/api/v1/admin/orders/${orderId}/recovery`,
       );
       console.log('response:', response);
       const fetchedOrders = await fetchOrders('FINISH');

@@ -1,4 +1,4 @@
-import React, {SetStateAction, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import * as styles from './ReceiptOrderItem.styles';
 import ReceiptOrderModal from '../receipt-order-modal/ReceiptOrderModal';
 import ReceiptCancelModal from '../receipt-order-modal/ReceiptCancelModal';
@@ -52,8 +52,9 @@ const ReceiptOrderItem: React.FC<{
   const handlePickupModal = async () => {
     try {
       setModalVisible(false);
+
       const response = await BASE_API.patch(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/pick-up`,
+        `https://prod.deunku.com/api/v1/admin/orders/${orderId}/pick-up`,
       );
       console.log('response:', response);
       const fetchedOrders = await fetchOrders('COOKING');
@@ -67,7 +68,7 @@ const ReceiptOrderItem: React.FC<{
   const handleCompletePress = async () => {
     try {
       const response = await BASE_API.patch(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/finish`,
+        `https://prod.deunku.com/api/v1/admin/orders/${orderId}/finish`,
       );
       console.log('response:', response);
       const fetchedOrders = await fetchOrders('COOKING');
@@ -80,7 +81,7 @@ const ReceiptOrderItem: React.FC<{
   const handleNotTakePress = async () => {
     try {
       const response = await BASE_API.patch(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}/not-take`,
+        `https://prod.deunku.com/api/v1/admin/orders/${orderId}/not-take`,
       );
       console.log('response:', response);
       const fetchedOrders = await fetchOrders('COOKING');
@@ -95,7 +96,7 @@ const ReceiptOrderItem: React.FC<{
   // const handleCancelPress = () => {
   //   setCancelModalVisible(false);
   //   BASE_API.delete(
-  //     `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+  //     `https://prod.deunku.com/api/v1/admin/orders/${orderId}`,
   //   ).then(async res => {
   //     console.log('res', res);
   //     setIsClicked(!isClicked);
@@ -104,7 +105,7 @@ const ReceiptOrderItem: React.FC<{
   const handleCancelPress = async () => {
     try {
       const response = await BASE_API.delete(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+        `https://prod.deunku.com/api/v1/admin/orders/${orderId}`,
       );
       console.log('response:', response);
       const fetchedOrders = await fetchOrders('COOKING');
@@ -118,7 +119,7 @@ const ReceiptOrderItem: React.FC<{
   const handleRefundPress = async () => {
     try {
       const response = await BASE_API.delete(
-        `https://dev.deunku.com/api/v1/admin/orders/${orderId}`,
+        `https://prod.deunku.com/api/v1/admin/orders/${orderId}`,
       );
       console.log('response:', response);
       const fetchedOrders = await fetchOrders('COOKING');

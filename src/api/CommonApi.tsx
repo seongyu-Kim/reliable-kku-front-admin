@@ -4,7 +4,7 @@ import {MMKVLoader} from 'react-native-mmkv-storage';
 const MMKV = new MMKVLoader().initialize();
 
 export const BASE_API = axios.create({
-  // baseURL: 'https://dev.deunku.com',
+  // baseURL: 'https://prod.deunku.com',
   responseType: 'json',
   withCredentials: true,
 });

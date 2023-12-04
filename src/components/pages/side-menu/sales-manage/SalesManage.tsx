@@ -103,7 +103,7 @@ const SalesManage: React.FC = () => {
     const fetchSales = () => {
       console.log(todayStartDate);
       BASE_API.get(
-        `https://dev.deunku.com/api/v1/admin/sales?startDate=${selectedStartDate}&endDate=${selectedEndDate}`,
+        `https://prod.deunku.com/api/v1/admin/sales?startDate=${selectedStartDate}&endDate=${selectedEndDate}`,
       )
         .then(response => {
           setSales(response.data);
@@ -122,7 +122,7 @@ const SalesManage: React.FC = () => {
   useEffect(() => {
     const fetchGraph = () => {
       BASE_API.get(
-        `https://dev.deunku.com/api/v1/admin/sales/monthly?date=${selectedStartDate}`,
+        `https://prod.deunku.com/api/v1/admin/sales/monthly?date=${selectedStartDate}`,
       )
         .then(
           (
@@ -157,7 +157,7 @@ const SalesManage: React.FC = () => {
   useEffect(() => {
     const fetchCalendar = () => {
       BASE_API.get(
-        `https://dev.deunku.com/api/v1/admin/sales/calendar?date=${todayStartDate}`,
+        `https://prod.deunku.com/api/v1/admin/sales/calendar?date=${todayStartDate}`,
       )
         .then(response => {
           console.log(response.data);
@@ -181,7 +181,7 @@ const SalesManage: React.FC = () => {
   const downloadExcel = async () => {
     try {
       const response = await BASE_API.get(
-        `https://dev.deunku.com/api/v1/admin/excel?startDate=${selectedStartDate}&endDate=${selectedEndDate}`,
+        `https://prod.deunku.com/api/v1/admin/excel?startDate=${selectedStartDate}&endDate=${selectedEndDate}`,
         {
           responseType: 'blob',
           headers: {

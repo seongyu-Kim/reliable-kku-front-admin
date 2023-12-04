@@ -14,26 +14,18 @@ import {heightPercentage, widthPercentage} from '../ResponsiveSize';
 const TopMenu: React.FC<{
   isSideMenuVisible: any;
   setIsSideMenuVisible: any;
-  // selectedTopMenu: string;
-  // setSelectedTopMenu: any;
   selectedSideMenu: string;
   setSelectedSideMenu: any;
-  // isClicked: boolean;
-  // setIsClicked: React.Dispatch<SetStateAction<boolean>>;
   setOrderStatus: any;
   orderStatus: any;
 }> = ({
   isSideMenuVisible,
   setIsSideMenuVisible,
-  // selectedTopMenu,
-  // setSelectedTopMenu,
   setOrderStatus,
   orderStatus,
   selectedSideMenu,
   setSelectedSideMenu,
 }) => {
-  //
-  //
   //
 
   //사이드메뉴토글
@@ -171,21 +163,27 @@ const TopMenu: React.FC<{
       ) : (
         <React.Fragment>
           <styles.TopMenuView>
-            <TouchableOpacity onPress={() => handleTopMenuPress('WAIT')}>
-              <styles.TopMenuText orderStatus={orderStatus === 'WAIT'}>
-                대기
-              </styles.TopMenuText>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleTopMenuPress('COOKING')}>
-              <styles.TopMenuText orderStatus={orderStatus === 'COOKING'}>
-                접수
-              </styles.TopMenuText>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleTopMenuPress('FINISH')}>
-              <styles.TopMenuText orderStatus={orderStatus === 'FINISH'}>
-                완료
-              </styles.TopMenuText>
-            </TouchableOpacity>
+            <styles.TopMenuContainer>
+              <TouchableOpacity onPress={() => handleTopMenuPress('WAIT')}>
+                <styles.TopMenuText orderStatus={orderStatus === 'WAIT'}>
+                  대기
+                </styles.TopMenuText>
+              </TouchableOpacity>
+            </styles.TopMenuContainer>
+            <styles.TopMenuContainer>
+              <TouchableOpacity onPress={() => handleTopMenuPress('COOKING')}>
+                <styles.TopMenuText orderStatus={orderStatus === 'COOKING'}>
+                  접수
+                </styles.TopMenuText>
+              </TouchableOpacity>
+            </styles.TopMenuContainer>
+            <styles.TopMenuContainer>
+              <TouchableOpacity onPress={() => handleTopMenuPress('FINISH')}>
+                <styles.TopMenuText orderStatus={orderStatus === 'FINISH'}>
+                  완료
+                </styles.TopMenuText>
+              </TouchableOpacity>
+            </styles.TopMenuContainer>
           </styles.TopMenuView>
           {orderStatus === 'WAIT' && <styles.HrLine1 />}
           {orderStatus === 'COOKING' && <styles.HrLine2 />}

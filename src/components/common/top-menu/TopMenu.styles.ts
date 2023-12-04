@@ -20,6 +20,11 @@ export const TopMenuView = styled.View<{isSideMenu: boolean}>`
   flex-direction: row;
 `;
 
+export const TopMenuContainer = styled.View`
+  width: ${widthPercentage(250)}px;
+  margin: 0 ${widthPercentage(49)}px;
+`;
+
 export const TopMenuViewSm = styled.View<{isSideMenu: boolean}>`
   flex-direction: row;
   left: ${widthPercentage(120)}px;
@@ -31,7 +36,7 @@ export const TopMenuText = styled.Text<OrderStatusProps>`
     props.orderStatus ? 'rgba(0, 0, 0, 0.60)' : 'rgba(0, 0, 0, 0.30)'};
   font-size: ${fontPercentage(40)}px;
   font-weight: 700;
-  margin: 0 ${widthPercentage(138.5)}px;
+  align-self: center;
 `;
 
 export const TopMenuTextSm = styled.Text`

@@ -64,7 +64,7 @@ const PlusMenuModal: React.FC<{
       );
 
       await BASE_API.post(
-        'https://dev.deunku.com/api/v1/admin/create-menu',
+        'https://prod.deunku.com/api/v1/admin/create-menu',
         formData,
         {
           headers: {

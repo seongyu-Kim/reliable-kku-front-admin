@@ -8,7 +8,7 @@ const BusinessManage: React.FC = () => {
   useEffect(() => {
     const fetchBusiness = async () => {
       await BASE_API.get(
-        'https://dev.deunku.com/api/v1/admin/stores/open-closed',
+        'https://prod.deunku.com/api/v1/admin/stores/open-closed',
       )
         .then(response => {
           setIsOperating(response.data.isOpened);
@@ -26,7 +26,7 @@ const BusinessManage: React.FC = () => {
   const handleisOperatingPress = async () => {
     try {
       const response = await BASE_API.put(
-        'https://dev.deunku.com/api/v1/admin/stores/open-closed',
+        'https://prod.deunku.com/api/v1/admin/stores/open-closed',
       );
 
       console.log(response);

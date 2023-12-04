@@ -23,7 +23,7 @@ const StockManage: React.FC = () => {
     React.useCallback(() => {
       const fetchMenus = async () => {
         setMenus([]);
-        await BASE_API.get('https://dev.deunku.com/api/v1/admin/menu')
+        await BASE_API.get('https://prod.deunku.com/api/v1/admin/menu')
           .then(response => {
             setMenus(response.data);
             console.log(response.data);
@@ -41,7 +41,7 @@ const StockManage: React.FC = () => {
   // useEffect(() => {
   //   const fetchMenus = async () => {
   //     setMenus([]);
-  //     await BASE_API.get('https://dev.deunku.com/api/v1/admin/menu')
+  //     await BASE_API.get('https://prod.deunku.com/api/v1/admin/menu')
   //       .then(response => {
   //         setMenus(response.data);
   //         console.log(response.data);
@@ -58,7 +58,7 @@ const StockManage: React.FC = () => {
   const handleSoldOutPress = async (menuId: number, isSoldOut: boolean) => {
     try {
       const response = await BASE_API.patch(
-        `https://dev.deunku.com/api/v1/admin/menu/${menuId}?isSoldOut=${isSoldOut}`,
+        `https://prod.deunku.com/api/v1/admin/menu/${menuId}?isSoldOut=${isSoldOut}`,
       );
       setMenus(prevMenus => {
         const updatedMenus = prevMenus.map(menu => {
@@ -81,7 +81,7 @@ const StockManage: React.FC = () => {
   const handleDeletePress = async (menuId: number) => {
     try {
       await BASE_API.delete(
-        `https://dev.deunku.com/api/v1/admin/menu/${menuId}`,
+        `https://prod.deunku.com/api/v1/admin/menu/${menuId}`,
       ).then(() => {
         setIsClicked(!isClicked);
         setIsClicked(!isClicked);

@@ -49,7 +49,7 @@ const MemberManage: React.FC = () => {
   useEffect(() => {
     const fetchMembers = async () => {
       await BASE_API.get(
-        `https://dev.deunku.com/api/v1/admin/member?searchKeyword=${searchKeyword}&page=${page}&size=${size}`,
+        `https://prod.deunku.com/api/v1/admin/member?searchKeyword=${searchKeyword}&page=${page}&size=${size}`,
       )
         .then(response => {
           setMembers(response.data.content);

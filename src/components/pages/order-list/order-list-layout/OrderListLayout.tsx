@@ -125,7 +125,7 @@ const OrderListLayout: React.FC<{
         <styles.OrderView>
           <ScrollView>{orderViews}</ScrollView>
           <styles.TotalItemCnt>
-            접수 총 주문 수량: {totalBunCount}개
+            접수 총 주문 수량: {totalBunCount}({orders.length})개
           </styles.TotalItemCnt>
         </styles.OrderView>
         <SiteOrderBtn isClicked={isClicked} setIsClicked={setIsClicked} />

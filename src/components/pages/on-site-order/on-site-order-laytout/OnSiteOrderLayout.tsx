@@ -90,7 +90,7 @@ const OnSiteOrderLayout: React.FC<{
 
   useEffect(() => {
     const fetchMenus = async () => {
-      await BASE_API.get('https://dev.deunku.com/api/v1/admin/menu')
+      await BASE_API.get('https://prod.deunku.com/api/v1/admin/menu')
         .then(res => {
           setMenus(res.data);
         })
@@ -118,7 +118,7 @@ const OnSiteOrderLayout: React.FC<{
       console.log('orderedMenuDate >>>>>>>>>', orderedMenuData);
 
       const response = await BASE_API.post(
-        'https://dev.deunku.com/api/v1/admin/offline-orders',
+        'https://prod.deunku.com/api/v1/admin/offline-orders',
         {
           phoneNumber: phoneNumber,
           totalPrice: totalPrice,

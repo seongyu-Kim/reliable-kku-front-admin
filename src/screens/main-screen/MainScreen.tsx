@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import * as styles from './MainScreen.styles';
 import OrderListLayout from '../../components/pages/order-list/order-list-layout/OrderListLayout';
 import TopMenu from '../../components/common/top-menu/TopMenu';
 import {BASE_API} from '../../api/CommonApi';
 import EventSource, {EventSourceListener} from 'react-native-sse';
 import Sound from 'react-native-sound';
+import messaging from '@react-native-firebase/messaging';
+import {PermissionsAndroid} from 'react-native';
 
 interface MenuResponseItem {
   name: string;
@@ -36,30 +38,94 @@ const MainScreen: React.FC = () => {
   );
 
   const [orders, setOrders] = useState<Order[]>([]);
+  const soundFile = require('../../assets/sound/jumoonTV.m4a');
+  const soundRef = useRef<Sound | null>(
+    new Sound(soundFile, error => {
+      if (error) {
+        console.error('Failed to load the sound', error);
+      }
+    }),
+  );
+
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
+
+  const requestUserPermission = async () => {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+    );
+
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      return getToken();
+    }
+  };
+
+  const getToken = async () => {
+    const fcmToken = await messaging().getToken();
+    console.log('디바이스 토큰값');
+    console.log(fcmToken);
+
+    BASE_API.post('https://prod.deunku.com/api/v1/fcm', {
+      token: fcmToken,
+    })
+      .then(response => {
+        console.log('success', response.data);
+      })
+      .catch(error => {
+        console.error('Error sending FCM Token to server:', error);
+      });
+  };
+
+  useEffect(() => {
+    return () => {
+      if (soundRef.current) {
+        soundRef.current.stop(); // Stop the sound if it's playing
+        soundRef.current.release(); // Release the sound resources
+      }
+    };
+  }, []);
+
+  // const playSound = () => {
+  //   const sound = new Sound(
+  //     require('../../assets/sound/jumoonTV.m4a'),
+  //     error => {
+  //       if (error) {
+  //         console.error('Failed to load the sound', error);
+  //         return;
+  //       }
+  //       sound.play(success => {
+  //         if (success) {
+  //           console.log('Sound played successfully');
+  //         } else {
+  //           console.error('Failed to play the sound');
+  //         }
+  //       });
+  //     },
+  //   );
+  // };
 
   const playSound = () => {
-    const sound = new Sound(
-      require('../../assets/sound/jumoonTV.m4a'),
-      error => {
-        if (error) {
-          console.error('Failed to load the sound', error);
-          return;
+    if (soundRef.current) {
+      soundRef.current.play(success => {
+        if (success) {
+          console.log('Sound played successfully');
+        } else {
+          console.error('Failed to play the sound');
         }
-        sound.play(success => {
-          if (success) {
-            console.log('Sound played successfully');
-          } else {
-            console.error('Failed to play the sound');
-          }
-        });
-      },
-    );
+      });
+    }
   };
 
   const fetchOrders = async (status?: string) => {
     try {
       const response = await BASE_API.get(
-        `https://dev.deunku.com/api/v1/admin/orders?orderStatus=${status}`,
+        `https://prod.deunku.com/api/v1/admin/orders?orderStatus=${status}`,
       );
       return response.data;
     } catch (error) {
@@ -73,7 +139,7 @@ const MainScreen: React.FC = () => {
       const data = await fetchOrders(orderStatus);
       setOrders(data);
       console.log(data);
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      console.log('!!!!!!!!!!!');
     };
     setOrders([]);
     fetchData();
@@ -81,40 +147,44 @@ const MainScreen: React.FC = () => {
 
   //SSE
   useEffect(() => {
-    const es = new EventSource(
-      'https://dev.deunku.com/api/v1/admin/order/sse/connect',
-      {
-        timeout: 0,
-      },
-    );
-    const listener: EventSourceListener = event => {
-      if (event.type === 'open') {
-        console.log('open!!!!!!!!!!!!!!!!!!!!!');
-        fetchOrders('WAIT').then(data => setOrders(data));
-      } else if (event.type === 'message') {
-        let data: Order;
-        if (event.data != null) {
-          data = JSON.parse(event.data);
-          console.log('data!!!!:', data);
-          if (orderStatus === 'WAIT') {
-            setOrders([data, ...orders]);
+    if (orderStatus == 'WAIT') {
+      const es = new EventSource(
+        'https://prod.deunku.com/api/v1/admin/order/sse/connect',
+        {
+          timeout: 0,
+          pollingInterval: 5000,
+        },
+      );
+      const listener: EventSourceListener = event => {
+        if (event.type === 'open') {
+          console.log('open!!!!!!!');
+          fetchOrders('WAIT').then(data => setOrders(data));
+        } else if (event.type === 'message') {
+          let data: Order;
+          if (event.data != null) {
+            data = JSON.parse(event.data);
+            console.log('data!!!!:', data);
+            // if (orderStatus === 'WAIT') {
+            //   setOrders([data, ...orders]);
+            // }
+            setOrders([data]);
+            playSound();
           }
-          playSound();
+        } else if (event.type === 'error') {
+        } else if (event.type === 'exception') {
+          console.log('SSE connection exception');
         }
-      } else if (event.type === 'error') {
-      } else if (event.type === 'exception') {
-        console.log('SSE connection exception');
-      }
-    };
+      };
 
-    es.addEventListener('open', listener);
-    es.addEventListener('message', listener);
-    es.addEventListener('error', listener);
+      es.addEventListener('open', listener);
+      es.addEventListener('message', listener);
+      es.addEventListener('error', listener);
 
-    return () => {
-      es.removeAllEventListeners();
-      es.close();
-    };
+      return () => {
+        es.removeAllEventListeners();
+        es.close();
+      };
+    }
   }, [orderStatus, isClicked]);
 
   return (
